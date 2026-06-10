@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="والت">
+<meta name="theme-color" id="tcMeta" content="#0a0f1e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>والت — مدیریت مالی هوشمند</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+/* ═══════════════════════════════════════
+   THEME SYSTEM — 8 SKINS
+═══════════════════════════════════════ */
+:root {
+  --bg:#0a0f1e; --bg2:#0f1629; --bg3:#131d35;
+  --card:rgba(15,22,41,.96); --brd:rgba(255,255,255,.08); --brd2:rgba(255,255,255,.18);
+  --fg:#e8eeff; --mu:#6b7ea8; --mu2:#8a9dc0;
+  --acc:#3b82f6; --acc2:#60a5fa; --acc3:#93c5fd;
+  --inc:#10b981; --inc2:#34d399;
+  --exp:#f43f5e; --exp2:#fb7185;
+  --sav:#8b5cf6; --sav2:#a78bfa;
+  --gld:#f59e0b; --gld2:#fbbf24;
+  --r:18px; --rsm:12px;
+  --sw:260px;
+  --bnh:80px;
+  --sab:env(safe-area-inset-bottom,0px);
+  --nav-bg:rgba(10,15,30,.97);
+  --shadow:0 8px 32px rgba(0,0,0,.4);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.5);
+  --glow-acc:rgba(59,130,246,.3);
+}
+
+/* THEME: MIDNIGHT (default dark) */
+[data-theme="midnight"] {
+  --bg:#0a0f1e; --bg2:#0f1629; --bg3:#131d35;
+  --card:rgba(15,22,41,.96); --brd:rgba(255,255,255,.08); --brd2:rgba(255,255,255,.18);
+  --fg:#e8eeff; --mu:#6b7ea8; --mu2:#8a9dc0;
+  --acc:#3b82f6; --acc2:#60a5fa; --acc3:#93c5fd;
+  --nav-bg:rgba(10,15,30,.97);
+  --glow-acc:rgba(59,130,246,.3);
+  --tcmeta:#0a0f1e;
+}
+/* THEME: OCEAN */
+[data-theme="ocean"] {
+  --bg:#001529; --bg2:#012a4a; --bg3:#013a63;
+  --card:rgba(1,42,74,.96); --brd:rgba(0,212,255,.1); --brd2:rgba(0,212,255,.25);
+  --fg:#e0f7ff; --mu:#5b9ab5; --mu2:#7abdd0;
+  --acc:#00d4ff; --acc2:#38e8ff; --acc3:#7ef0ff;
+  --nav-bg:rgba(0,21,41,.97);
+  --glow-acc:rgba(0,212,255,.3);
+  --tcmeta:#001529;
+}
+/* THEME: FOREST */
+[data-theme="forest"] {
+  --bg:#0a1f0a; --bg2:#0f2d0f; --bg3:#163516;
+  --card:rgba(15,45,15,.96); --brd:rgba(74,222,128,.1); --brd2:rgba(74,222,128,.22);
+  --fg:#e0ffe4; --mu:#5b8a62; --mu2:#7aa87f;
+  --acc:#22c55e; --acc2:#4ade80; --acc3:#86efac;
+  --nav-bg:rgba(10,31,10,.97);
+  --glow-acc:rgba(34,197,94,.3);
+  --tcmeta:#0a1f0a;
+}
+/* THEME: SUNSET */
+[data-theme="sunset"] {
+  --bg:#1a0a1e; --bg2:#2d0f35; --bg3:#3d1545;
+  --card:rgba(45,15,53,.96); --brd:rgba(251,113,133,.1); --brd2:rgba(251,113,133,.22);
+  --fg:#fff0f5; --mu:#9b6b8a; --mu2:#b88aa0;
+  --acc:#f43f5e; --acc2:#fb7185; --acc3:#fda4af;
+  --nav-bg:rgba(26,10,30,.97);
+  --glow-acc:rgba(244,63,94,.3);
+  --tcmeta:#1a0a1e;
+}
+/* THEME: GOLD */
+[data-theme="gold"] {
+  --bg:#1a1200; --bg2:#2a1e00; --bg3:#352800;
+  --card:rgba(42,30,0,.96); --brd:rgba(251,191,36,.1); --brd2:rgba(251,191,36,.22);
+  --fg:#fff8e0; --mu:#9b8a4a; --mu2:#b8a566;
+  --acc:#f59e0b; --acc2:#fbbf24; --acc3:#fcd34d;
+  --nav-bg:rgba(26,18,0,.97);
+  --glow-acc:rgba(245,158,11,.3);
+  --tcmeta:#1a1200;
+}
+/* THEME: LIGHT CLEAN */
+[data-theme="light"] {
+  --bg:#f5f7ff; --bg2:#ebeeff; --bg3:#ffffff;
+  --card:rgba(255,255,255,.97); --brd:rgba(59,130,246,.1); --brd2:rgba(59,130,246,.22);
+  --fg:#0d1220; --mu:#64748b; --mu2:#94a3b8;
+  --acc:#3b82f6; --acc2:#2563eb; --acc3:#1d4ed8;
+  --nav-bg:rgba(245,247,255,.98);
+  --glow-acc:rgba(59,130,246,.2);
+  --tcmeta:#f5f7ff;
+}
+/* THEME: ROSE GOLD */
+[data-theme="rosegold"] {
+  --bg:#1e1014; --bg2:#2d171e; --bg3:#3a1f28;
+  --card:rgba(45,23,30,.96); --brd:rgba(244,163,176,.1); --brd2:rgba(244,163,176,.22);
+  --fg:#fff0f3; --mu:#9b6b75; --mu2:#b88890;
+  --acc:#e879a0; --acc2:#f0a0be; --acc3:#f8c8d8;
+  --nav-bg:rgba(30,16,20,.97);
+  --glow-acc:rgba(232,121,160,.3);
+  --tcmeta:#1e1014;
+}
+/* THEME: SLATE */
+[data-theme="slate"] {
+  --bg:#0f1117; --bg2:#171b24; --bg3:#1e2330;
+  --card:rgba(23,27,36,.96); --brd:rgba(148,163,184,.09); --brd2:rgba(148,163,184,.2);
+  --fg:#e2e8f0; --mu:#64748b; --mu2:#94a3b8;
+  --acc:#818cf8; --acc2:#a5b4fc; --acc3:#c7d2fe;
+  --nav-bg:rgba(15,17,23,.97);
+  --glow-acc:rgba(129,140,248,.3);
+  --tcmeta:#0f1117;
+}
+
+/* ═══════════════ BASE ═══════════════ */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Vazirmatn',sans-serif;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--fg);transition:background .35s,color .35s;}
+
+/* orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;animation:orb 20s ease-in-out infinite alternate;}
+.orb:nth-child(1){width:700px;height:700px;top:-200px;right:-200px;background:radial-gradient(circle,rgba(59,130,246,.07),transparent 65%);}
+.orb:nth-child(2){width:600px;height:600px;bottom:-150px;left:-150px;background:radial-gradient(circle,rgba(139,92,246,.06),transparent 65%);animation-duration:16s;animation-direction:alternate-reverse;}
+.orb:nth-child(3){width:400px;height:400px;top:50%;right:30%;background:radial-gradient(circle,rgba(16,185,129,.04),transparent 65%);animation-duration:24s;}
+@keyframes orb{from{transform:translate(0,0)scale(1);}to{transform:translate(50px,35px)scale(1.12);}}
+
+/* ═══════════════ SHELL ═══════════════ */
+#app{display:flex;height:100vh;height:100dvh;position:relative;z-index:1;}
+
+/* ═══════════════ SIDEBAR ═══════════════ */
+#sb{width:var(--sw);min-width:var(--sw);background:var(--bg2);border-left:1px solid var(--brd);display:flex;flex-direction:column;padding:18px 12px;gap:2px;overflow:hidden;transition:background .35s;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:0 8px 14px;border-bottom:1px solid var(--brd);margin-bottom:8px;}
+.sb-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--sav));display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;box-shadow:0 0 20px var(--glow-acc);}
+.sb-nm{font-size:16px;font-weight:900;color:var(--fg);}.sb-sub{font-size:10px;color:var(--mu);}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:var(--rsm);cursor:pointer;transition:all .2s;color:var(--mu);font-size:13px;font-weight:500;border:1px solid transparent;user-select:none;position:relative;}
+.ni:hover{background:var(--bg3);color:var(--fg);}
+.ni.active{background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(139,92,246,.1));color:var(--acc2);border-color:rgba(59,130,246,.2);box-shadow:inset 0 0 0 1px rgba(59,130,246,.1);}
+.ni-i{width:18px;text-align:center;flex-shrink:0;font-size:15px;}
+.ni-bd{position:absolute;left:10px;top:50%;transform:translateY(-50%);background:var(--exp);color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:999px;display:none;}
+.sb-sp{flex:1;}
+.sb-user{display:flex;align-items:center;gap:8px;padding:10px;border-radius:var(--rsm);background:var(--bg3);border:1px solid var(--brd);cursor:pointer;transition:all .2s;}
+.sb-user:hover{border-color:var(--brd2);}
+.s-av{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--acc),var(--sav));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.s-un{font-size:12px;font-weight:700;color:var(--fg);}.s-ur{font-size:10px;color:var(--mu);}
+
+/* ═══════════════ CONTENT ═══════════════ */
+#ct{flex:1;overflow-y:auto;overflow-x:hidden;padding:22px 22px;scroll-behavior:smooth;transition:background .35s;}
+#ct::-webkit-scrollbar{width:4px;}
+#ct::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px;}
+
+/* ═══════════════ BOTTOM NAV MOBILE ═══════════════ */
+#bn{display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;background:var(--nav-bg);border-top:1px solid var(--brd);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);}
+.bn-inner{display:flex;align-items:flex-end;justify-content:space-around;padding:0 4px;padding-bottom:var(--sab);height:var(--bnh);position:relative;}
+.bni{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px 8px;border-radius:12px;cursor:pointer;transition:all .2s;flex:1;position:relative;max-width:68px;min-width:0;}
+.bni-i{font-size:22px;line-height:1.1;transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
+.bni-l{font-size:9.5px;font-weight:600;color:var(--mu);transition:color .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60px;text-align:center;}
+.bni.active .bni-i{transform:scale(1.18) translateY(-2px);}
+.bni.active .bni-l{color:var(--acc2);}
+.bni.active{background:rgba(59,130,246,.12);}
+.bni-bd{position:absolute;top:6px;left:50%;transform:translateX(4px);background:var(--exp);color:#fff;font-size:9px;font-weight:700;padding:0 4px;border-radius:999px;min-width:14px;text-align:center;display:none;}
+.bn-fab-wrap{flex:0 0 68px;display:flex;align-items:center;justify-content:center;margin-bottom:calc(8px + var(--sab)/2);position:relative;z-index:1;}
+.bn-fab{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--sav));display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;cursor:pointer;box-shadow:0 4px 20px var(--glow-acc),0 0 0 4px rgba(59,130,246,.15);transition:all .22s;border:none;}
+.bn-fab:hover{transform:scale(1.08);}
+.bn-fab:active{transform:scale(.93);}
+
+/* ═══════════════ VIEWS ═══════════════ */
+.view{display:none;animation:fu .36s cubic-bezier(.16,1,.3,1) forwards;}
+.view.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══════════════ TOPBAR ═══════════════ */
+.tb{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.pg-t{font-size:20px;font-weight:900;color:var(--fg);}.pg-s{font-size:12px;color:var(--mu);margin-top:2px;}
+.tb-a{display:flex;gap:7px;align-items:center;}
+
+/* ═══════════════ BUTTONS ═══════════════ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:var(--rsm);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:inherit;white-space:nowrap;color:var(--fg);}
+.bp{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 4px 14px var(--glow-acc);}
+.bp:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--glow-acc);}
+.bp:active{transform:scale(.97);}
+.bg{background:var(--bg3);color:var(--fg);border:1px solid var(--brd);}
+.bg:hover{border-color:var(--brd2);}
+.bsu{background:linear-gradient(135deg,#10b981,#059669);color:#fff;}
+.bsv{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;}
+.bico{padding:9px;}.bsm{padding:7px 11px;font-size:12px;}
+
+/* ═══════════════ CARDS ═══════════════ */
+.card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:border-color .25s,background .35s;}
+.card:hover{border-color:var(--brd2);}
+.cp{padding:18px;}
+
+/* ═══════════════ GRIDS ═══════════════ */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+
+/* ═══════════════ STAT CARDS ═══════════════ */
+.sc{padding:16px;position:relative;overflow:hidden;}
+.scg{position:absolute;top:-20px;left:-20px;width:80px;height:80px;border-radius:50%;filter:blur(28px);opacity:.5;}
+.scb{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;margin-bottom:8px;}
+.scv{font-size:18px;font-weight:900;line-height:1;margin-bottom:3px;word-break:break-all;color:var(--fg);}
+.scl{font-size:10px;color:var(--mu);}
+.sco{position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+
+/* ═══════════════ BALANCE CARDS ═══════════════ */
+.abc{border-radius:16px;overflow:hidden;cursor:pointer;position:relative;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.3);min-height:88px;}
+.abc:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.4);}
+.abc-in{padding:14px 16px;position:relative;z-index:2;}
+.abc-sh{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,transparent 60%);z-index:1;}
+.abc-c1{position:absolute;bottom:-16px;left:-16px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06);z-index:1;}
+.abc-nm{font-size:11px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:5px;}
+.abc-am{font-size:18px;font-weight:900;color:#fff;line-height:1;}
+.abc-ut{font-size:10px;font-weight:400;color:rgba(255,255,255,.5);margin-right:3px;}
+.abc-l4{font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;font-family:'Space Mono',monospace;}
+
+/* ═══════════════ TYPE TOGGLE ═══════════════ */
+.ttog{display:flex;border-radius:var(--rsm);overflow:hidden;border:1px solid var(--brd);background:var(--bg2);}
+.tt{flex:1;padding:10px 3px;text-align:center;font-size:10px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--mu);transition:all .22s cubic-bezier(.16,1,.3,1);font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.1;}
+.tt-ico{font-size:19px;line-height:1;transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
+.tt:not(.active):hover .tt-ico{transform:scale(1.12) translateY(-1px);}
+.tt.active .tt-ico{transform:scale(1.28) translateY(-2px);}
+.tt.active[data-t="expense"]{background:var(--exp);color:#fff;}
+.tt.active[data-t="income"]{background:var(--inc);color:#fff;}
+.tt.active[data-t="transfer"]{background:var(--acc);color:#fff;}
+.tt.active[data-t="savings_deposit"]{background:var(--sav);color:#fff;}
+.tt.active[data-t="savings_withdraw"]{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;}
+
+/* ═══════════════ AMT PILL ═══════════════ */
+.amt-pill{text-align:center;padding:12px;border-radius:12px;background:var(--bg3);border:1px solid var(--brd);margin-bottom:12px;transition:border-color .2s;}
+
+/* ═══════════════ FILTER TABS ═══════════════ */
+.ftabs{display:flex;gap:6px;flex-wrap:wrap;}
+.ftab{padding:6px 12px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--brd);background:var(--bg3);color:var(--mu);transition:all .18s;font-family:inherit;}
+.ftab.active{background:var(--acc);color:#fff;border-color:var(--acc);}
+
+/* ═══════════════ SEARCH ═══════════════ */
+.srch{display:flex;align-items:center;gap:9px;padding:10px 14px;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--rsm);margin-bottom:12px;transition:border-color .2s;}
+.srch:focus-within{border-color:var(--acc);}
+.srch input{flex:1;border:none;background:none;color:var(--fg);font-size:13px;font-family:inherit;outline:none;}
+.srch input::placeholder{color:var(--mu);}
+
+/* ═══════════════ FORM ═══════════════ */
+.fg{margin-bottom:12px;}
+.fl{font-size:11px;font-weight:700;color:var(--mu2);margin-bottom:5px;display:block;letter-spacing:.3px;}
+.fi{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rsm);color:var(--fg);font-size:14px;font-family:inherit;transition:all .2s;}
+.fi:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(59,130,246,.15);}
+.fs{appearance:none;cursor:pointer;}
+.fr{display:grid;gap:10px;}.fr2{grid-template-columns:1fr 1fr;}.fr3{grid-template-columns:1fr 1fr 1fr;}
+
+/* ═══════════════ MODAL ═══════════════ */
+.mo{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none;align-items:flex-end;justify-content:center;}
+.mo.open{display:flex;}
+@media(min-width:641px){.mo{align-items:center;}}
+.modal{background:var(--bg2);border:1px solid var(--brd);width:100%;max-width:510px;max-height:92dvh;overflow-y:auto;animation:mi .32s cubic-bezier(.16,1,.3,1) forwards;}
+.modal::-webkit-scrollbar{width:3px;}.modal::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px;}
+@media(max-width:640px){.modal{border-radius:24px 24px 0 0;}}
+@media(min-width:641px){.modal{border-radius:20px;}}
+@keyframes mi{from{opacity:0;transform:scale(.93) translateY(18px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mh{padding:18px 20px 0;display:flex;align-items:center;justify-content:space-between;}
+.mt{font-size:16px;font-weight:800;color:var(--fg);}
+.mc{width:28px;height:28px;border-radius:8px;border:none;background:var(--bg3);color:var(--mu);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .15s;}
+.mc:hover{background:var(--brd2);color:var(--fg);}
+.mb{padding:15px 20px 24px;}
+.mhndl{width:38px;height:4px;border-radius:2px;background:var(--brd2);margin:10px auto 0;}
+
+/* ═══════════════ TABLE ═══════════════ */
+.dt{width:100%;border-collapse:collapse;}
+.dt th{text-align:right;padding:9px 12px;font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.4px;border-bottom:1px solid var(--brd);}
+.dt td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--brd);color:var(--fg);transition:background .15s;}
+.dt tr:hover td{background:var(--bg2);}
+.dt tr:last-child td{border-bottom:none;}
+
+/* ═══════════════ SECTION HEADER ═══════════════ */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.st{font-size:13px;font-weight:700;color:var(--fg);}.sl{font-size:12px;color:var(--acc2);cursor:pointer;}
+
+/* ═══════════════ TX ROW ═══════════════ */
+.txr{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rsm);transition:background .15s;}
+.txr:hover{background:var(--bg2);}
+.txic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.txm{flex:1;min-width:0;}
+.txn{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--fg);}
+.txs{font-size:11px;color:var(--mu);margin-top:1px;}
+.txa{font-size:13px;font-weight:800;white-space:nowrap;}
+.txd{opacity:0;border:none;background:none;cursor:pointer;color:var(--mu);padding:4px;border-radius:6px;font-size:12px;transition:all .15s;}
+.txr:hover .txd{opacity:1;}
+.txd:hover{color:var(--exp);background:rgba(244,63,94,.12);}
+.txlist{max-height:280px;overflow-y:auto;}
+.txlist::-webkit-scrollbar{width:3px;}
+.txlist::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px;}
+
+/* ═══════════════ BANK CARD (REALISTIC) ═══════════════ */
+.bk-card{width:100%;height:210px;border-radius:20px;position:relative;overflow:hidden;transition:all .35s;box-shadow:0 18px 45px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.15);font-family:'Space Mono',monospace;user-select:none;}
+.bk-card:hover{transform:translateY(-4px) rotate(.3deg);box-shadow:0 28px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.18);}
+/* Holographic shimmer */
+.bk-holo{position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.06) 45%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.06) 55%,transparent 65%);animation:shimmer 4s ease-in-out infinite;}
+@keyframes shimmer{0%,100%{opacity:.6;transform:translateX(-100%);}50%{opacity:1;transform:translateX(100%);}}
+/* Texture overlay */
+.bk-tex{position:absolute;inset:0;z-index:2;opacity:.04;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.5) 2px,rgba(255,255,255,.5) 3px),repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(255,255,255,.5) 2px,rgba(255,255,255,.5) 3px);}
+.bk-sh{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.22) 0%,transparent 50%,rgba(255,255,255,.05) 100%);z-index:3;pointer-events:none;}
+.bk-glow{position:absolute;top:-30%;right:-20%;width:70%;height:70%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);z-index:2;pointer-events:none;}
+.bk-con{position:absolute;inset:0;z-index:5;padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between;}
+.bk-top{display:flex;align-items:center;justify-content:space-between;}
+.bk-logo{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:1.5px;font-family:'Vazirmatn',sans-serif;text-shadow:0 1px 4px rgba(0,0,0,.4);}
+/* EMV Chip */
+.bk-chip{width:42px;height:32px;border-radius:6px;background:linear-gradient(135deg,#d4a017,#e8c547,#b8860b,#ffd700);position:relative;box-shadow:0 2px 6px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.4);}
+.bk-chip::before{content:'';position:absolute;inset:4px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:linear-gradient(135deg,#c49010,#e0b838);}
+.bk-chip::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.2);}
+.bk-chip-v{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(0,0,0,.2);}
+/* Card number */
+.bk-num-row{display:flex;justify-content:space-between;align-items:center;padding:0 2px;}
+.bk-num-g{font-size:15px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.95);text-shadow:0 1px 4px rgba(0,0,0,.5);}
+.bk-bot{display:flex;align-items:flex-end;justify-content:space-between;}
+.bk-holder-wrap{display:flex;flex-direction:column;gap:1px;}
+.bk-label{font-size:8px;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;font-family:'Vazirmatn',sans-serif;}
+.bk-holder{font-size:12px;color:rgba(255,255,255,.9);font-weight:700;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Vazirmatn',sans-serif;letter-spacing:.5px;}
+.bk-bal-wrap{text-align:left;}
+.bk-bal{font-size:16px;font-weight:900;color:#fff;font-family:'Vazirmatn',sans-serif;text-shadow:0 1px 5px rgba(0,0,0,.4);}
+.bk-bal-lbl{font-size:8px;color:rgba(255,255,255,.45);letter-spacing:.8px;font-family:'Vazirmatn',sans-serif;text-align:left;margin-bottom:2px;}
+/* NFC icon */
+.bk-nfc{position:absolute;bottom:22px;right:22px;z-index:6;opacity:.6;}
+.bk-nfc svg{width:20px;height:20px;fill:rgba(255,255,255,.8);}
+/* Network logo */
+.bk-net{position:absolute;bottom:18px;left:22px;z-index:6;display:flex;gap:-4px;}
+.bk-net-c{width:22px;height:22px;border-radius:50%;}
+
+/* Card gradients */
+.cg-blue{background:linear-gradient(135deg,#0f2877 0%,#1a3a9c 35%,#0d62c8 65%,#1e7dd9 100%);}
+.cg-green{background:linear-gradient(135deg,#0a3d1f 0%,#145a2e 35%,#1e7a45 65%,#0d9144 100%);}
+.cg-red{background:linear-gradient(135deg,#5c0000 0%,#8b0000 35%,#b91c1c 65%,#dc2626 100%);}
+.cg-purple{background:linear-gradient(135deg,#2e0558 0%,#4c1d95 35%,#7c3aed 65%,#8b5cf6 100%);}
+.cg-gold{background:linear-gradient(135deg,#78350f 0%,#b45309 35%,#d97706 65%,#f59e0b 100%);}
+.cg-cyan{background:linear-gradient(135deg,#0c4a6e 0%,#0369a1 35%,#0284c7 65%,#0ea5e9 100%);}
+.cg-pink{background:linear-gradient(135deg,#500724 0%,#881337 35%,#be185d 65%,#ec4899 100%);}
+.cg-slate{background:linear-gradient(135deg,#0f172a 0%,#1e293b 35%,#334155 65%,#475569 100%);}
+.cg-titanium{background:linear-gradient(135deg,#1c1c1e 0%,#2c2c2e 35%,#3a3a3c 65%,#48484a 100%);}
+.cg-emerald{background:linear-gradient(135deg,#064e3b 0%,#065f46 35%,#047857 65%,#059669 100%);}
+
+/* ═══════════════ COPY ROW ═══════════════ */
+.crow{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;background:var(--bg2);border:1px solid var(--brd);margin-top:7px;transition:all .2s;cursor:pointer;}
+.crow:hover{border-color:var(--acc);background:rgba(59,130,246,.06);}
+.crow-l{font-size:11px;color:var(--mu);font-weight:600;min-width:65px;flex-shrink:0;}
+.crow-v{font-size:12px;color:var(--fg);font-weight:500;flex:1;font-family:'Space Mono',monospace;word-break:break-all;}
+.crow-b{font-size:15px;color:var(--mu);flex-shrink:0;}
+.crow.cp2{border-color:var(--inc);background:rgba(16,185,129,.08);}
+.crow.cp2 .crow-b{color:var(--inc);}
+
+/* ═══════════════ PROGRESS ═══════════════ */
+.pb{height:6px;border-radius:4px;background:var(--bg2);overflow:hidden;}
+.pbf{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.16,1,.3,1);}
+
+/* ═══════════════ COLOR PICKER ═══════════════ */
+.cpick{display:flex;gap:8px;flex-wrap:wrap;}
+.cpd{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,.3);}
+.cpd.sel{border-color:rgba(255,255,255,.9);transform:scale(1.2);}
+
+/* ═══════════════ THEME PICKER ═══════════════ */
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.theme-chip{border-radius:12px;padding:10px 6px;cursor:pointer;border:2px solid var(--brd);transition:all .2s;text-align:center;font-size:11px;font-weight:600;color:var(--fg);}
+.theme-chip:hover{border-color:var(--acc2);transform:translateY(-1px);}
+.theme-chip.active{border-color:var(--acc);box-shadow:0 0 0 2px var(--glow-acc);}
+.theme-chip-preview{width:100%;height:30px;border-radius:8px;margin-bottom:6px;}
+
+/* ═══════════════ TOAST ═══════════════ */
+#toast{position:fixed;bottom:calc(var(--bnh) + var(--sab) + 12px);right:16px;z-index:9999;padding:11px 16px;border-radius:14px;background:var(--bg2);border:1px solid var(--brd);display:flex;align-items:center;gap:9px;font-size:13px;font-weight:500;color:var(--fg);transform:translateX(140%);transition:transform .36s cubic-bezier(.16,1,.3,1);box-shadow:0 16px 40px rgba(0,0,0,.35);min-width:180px;max-width:290px;}
+#toast.show{transform:translateX(0);}
+@media(min-width:769px){#toast{bottom:20px;right:20px;}}
+
+/* ═══════════════ PWA BANNER ═══════════════ */
+#pwab{display:none;position:fixed;top:0;left:0;right:0;z-index:800;padding:11px 16px;background:linear-gradient(135deg,var(--acc),var(--sav));color:#fff;font-size:13px;font-weight:600;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 4px 16px var(--glow-acc);}
+#pwab.show{display:flex;}
+
+/* ═══════════════ BUDGET ═══════════════ */
+.bud-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--brd);}
+.bud-item:last-child{border-bottom:none;}
+.bud-info{flex:1;}
+.bud-cat{font-size:13px;font-weight:600;color:var(--fg);margin-bottom:3px;}
+.bud-nums{display:flex;justify-content:space-between;font-size:11px;color:var(--mu);margin-bottom:5px;}
+
+/* ═══════════════ REMINDER ═══════════════ */
+.rem-item{display:flex;align-items:center;gap:10px;padding:11px;border-radius:var(--rsm);background:var(--bg3);border:1px solid var(--brd);margin-bottom:8px;transition:all .2s;}
+.rem-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.rem-info{flex:1;}
+.rem-title{font-size:13px;font-weight:600;color:var(--fg);}
+.rem-date{font-size:11px;color:var(--mu);margin-top:2px;}
+
+/* ═══════════════ AI CHAT ═══════════════ */
+.ai-chat{display:flex;flex-direction:column;gap:10px;max-height:380px;overflow-y:auto;padding:4px;}
+.ai-chat::-webkit-scrollbar{width:3px;}
+.ai-chat::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px;}
+.ai-msg{max-width:86%;padding:11px 14px;border-radius:14px;font-size:13px;line-height:1.6;white-space:pre-wrap;}
+.ai-msg.user{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;align-self:flex-start;border-radius:14px 14px 4px 14px;}
+.ai-msg.bot{background:var(--bg3);border:1px solid var(--brd);align-self:flex-end;border-radius:14px 14px 14px 4px;color:var(--fg);}
+.ai-quick{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
+.ai-qbtn{padding:7px 12px;border-radius:999px;border:1px solid var(--brd);background:var(--bg3);color:var(--mu);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;}
+.ai-qbtn:hover{border-color:var(--acc);color:var(--acc2);}
+.ai-input-row{display:flex;gap:9px;margin-top:12px;}
+
+/* ═══════════════ JALALI DATE PICKER ═══════════════ */
+.jpicker{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rsm);color:var(--fg);font-size:14px;font-family:'Vazirmatn',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .2s;user-select:none;}
+.jpicker:hover{border-color:var(--acc);}
+.jcal{background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--r);padding:14px;display:none;position:absolute;z-index:9999;width:290px;box-shadow:0 16px 48px rgba(0,0,0,.5);top:calc(100% + 5px);right:0;}
+.jcal.open{display:block;animation:mi .24s ease forwards;}
+.jcal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.jcal-title{font-size:14px;font-weight:800;color:var(--fg);}
+.jcal-nav{background:var(--bg3);border:1px solid var(--brd);cursor:pointer;color:var(--fg);font-size:15px;padding:5px 10px;border-radius:8px;transition:all .15s;font-family:inherit;}
+.jcal-nav:hover{border-color:var(--acc);color:var(--acc2);}
+.jcal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.jcal-dow{font-size:10px;font-weight:700;color:var(--mu);text-align:center;padding:5px 0;}
+.jcal-day{font-size:12px;text-align:center;padding:8px 2px;border-radius:8px;cursor:pointer;transition:all .15s;color:var(--fg);}
+.jcal-day:hover{background:var(--bg3);}
+.jcal-day.today{color:var(--acc2);font-weight:800;background:rgba(59,130,246,.1);}
+.jcal-day.selected{background:var(--acc);color:#fff;font-weight:700;box-shadow:0 2px 8px var(--glow-acc);}
+.jcal-day.other-month{color:var(--mu);opacity:.35;}
+.jcal-day.empty{cursor:default;}
+
+/* ═══════════════ GOAL TRACKER ═══════════════ */
+.goal-card{padding:15px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--brd);margin-bottom:12px;transition:all .2s;}
+.goal-card:hover{border-color:var(--brd2);}
+.goal-header{display:flex;align-items:center;gap:11px;margin-bottom:11px;}
+.goal-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.goal-title{font-size:13px;font-weight:700;color:var(--fg);}
+.goal-meta{font-size:11px;color:var(--mu);margin-top:1px;}
+.goal-pct{font-size:19px;font-weight:900;color:var(--acc2);}
+
+/* ═══════════════ SMART INSIGHTS ═══════════════ */
+.insight-card{display:flex;align-items:flex-start;gap:12px;padding:13px;border-radius:var(--rsm);background:var(--bg3);border:1px solid var(--brd);margin-bottom:9px;transition:border-color .2s;}
+.insight-card:hover{border-color:var(--brd2);}
+.insight-ico{font-size:23px;flex-shrink:0;margin-top:1px;}
+.insight-title{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--fg);}
+.insight-body{font-size:12px;color:var(--mu);line-height:1.55;}
+
+/* ═══════════════ ONBOARDING ═══════════════ */
+#onboarding{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:20px;}
+.ob-card{background:var(--bg2);border:1px solid var(--brd);border-radius:26px;max-width:440px;width:100%;overflow:hidden;animation:mi .4s cubic-bezier(.16,1,.3,1) forwards;}
+.ob-slides{display:flex;transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.ob-slide{flex:0 0 100%;padding:34px 30px;}
+.ob-ico{font-size:54px;text-align:center;margin-bottom:16px;}
+.ob-title{font-size:21px;font-weight:900;text-align:center;margin-bottom:8px;color:var(--fg);}
+.ob-desc{font-size:14px;color:var(--mu);text-align:center;line-height:1.75;margin-bottom:20px;}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:20px;}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--brd2);transition:all .22s;}
+.ob-dot.active{background:var(--acc);width:24px;border-radius:4px;}
+.ob-footer{display:flex;gap:10px;align-items:center;}
+.ob-tip{font-size:11px;color:var(--mu);background:var(--bg3);border:1px solid var(--brd);border-radius:10px;padding:9px 13px;margin-top:4px;}
+
+/* ═══════════════ EMPTY ═══════════════ */
+.empty{text-align:center;padding:36px 16px;color:var(--mu);}
+.ei{font-size:36px;margin-bottom:10px;opacity:.45;}.et{font-size:13px;}
+.div{height:1px;background:var(--brd);margin:11px 0;}
+
+/* ═══════════════ SHAKE ═══════════════ */
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
+
+/* ═══════════════ LOGIN ═══════════════ */
+#lp{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:18px;overflow-y:auto;}
+.lcard{max-width:390px;width:100%;border-radius:24px;padding:30px;}
+.ll{text-align:center;margin-bottom:22px;}
+.lm{width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,var(--acc),var(--sav));margin:0 auto 13px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 0 40px var(--glow-acc);}
+.lt{font-size:24px;font-weight:900;margin-bottom:3px;color:var(--fg);}.ls{font-size:12px;color:var(--mu);}
+.lhint{text-align:center;margin-top:10px;font-size:11px;color:var(--mu);padding:9px;border-radius:10px;background:var(--bg2);border:1px solid var(--brd);}
+.rlink{text-align:center;margin-top:9px;font-size:12px;color:var(--acc2);cursor:pointer;padding:5px;}
+.lp-panel{display:none;}
+.lp-panel.active{display:block;animation:fu .3s cubic-bezier(.16,1,.3,1) forwards;}
+.back-btn{display:flex;align-items:center;gap:6px;color:var(--mu);font-size:13px;cursor:pointer;margin-bottom:16px;padding:4px 0;border:none;background:none;font-family:inherit;font-weight:600;}
+.back-btn:hover{color:var(--fg);}
+.method-card{display:flex;align-items:center;gap:15px;padding:15px;border-radius:14px;border:1px solid var(--brd);background:var(--bg3);cursor:pointer;transition:all .2s;margin-bottom:11px;}
+.method-card:hover{border-color:var(--acc);background:rgba(59,130,246,.07);}
+.method-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;}
+.method-title{font-size:14px;font-weight:700;color:var(--fg);}
+.method-desc{font-size:11px;color:var(--mu);margin-top:2px;}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:18px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--brd2);transition:all .2s;}
+.step-dot.active{background:var(--acc);width:22px;border-radius:4px;}
+.step-dot.done{background:var(--inc);}
+.otp-boxes{display:flex;gap:9px;justify-content:center;margin-bottom:15px;}
+.otp-box{width:46px;height:54px;border-radius:11px;border:2px solid var(--brd);background:var(--bg2);text-align:center;font-size:23px;font-weight:800;color:var(--fg);font-family:'Space Mono',monospace;outline:none;transition:border-color .2s;}
+.otp-box:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(59,130,246,.15);}
+.otp-box.filled{border-color:var(--acc2);}
+.success-ico{font-size:52px;text-align:center;margin:18px 0;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{transform:scale(0);}to{transform:scale(1);}}
+
+/* ═══════════════ CAT BADGE ═══════════════ */
+.cb{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;}
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media(max-width:768px){
+  #sb{display:none;}
+  #bn{display:block;}
+  #ct{padding:14px 13px calc(var(--bnh) + var(--sab) + 18px);}
+  .g4{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .g3{grid-template-columns:repeat(2,1fr);}
+  .g2{grid-template-columns:1fr;}
+  .scv{font-size:16px;}.tb{margin-bottom:14px;}.pg-t{font-size:18px;}
+  .bk-card{height:190px;}
+  .ga{grid-template-columns:1fr;}
+  #toast{bottom:calc(var(--bnh) + var(--sab) + 10px);}
+}
+@media(max-width:480px){.fr2,.fr3{grid-template-columns:1fr;}.dt th:nth-child(3),.dt td:nth-child(3){display:none;}}
+@media(min-width:769px) and (max-width:1100px){:root{--sw:220px;}}
+</style>
+</head>
+<body data-theme="midnight">
+<div class="orb"></div><div class="orb"></div><div class="orb"></div>
+
+<!-- PWA BANNER -->
+<div id="pwab">
+  <div style="display:flex;align-items:center;gap:9px"><span style="font-size:20px">👜</span><span>والت را نصب کنید</span></div>
+  <div style="display:flex;gap:7px">
+    <button class="btn bg bsm" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="dimPwa()">بعداً</button>
+    <button class="btn bsm" style="background:#fff;color:#3b82f6;font-weight:800" onclick="instPwa()">📲 نصب</button>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding" style="display:none">
+  <div class="ob-card">
+    <div class="ob-slides" id="obSlides">
+      <div class="ob-slide"><div class="ob-ico">👜</div><div class="ob-title">به والت خوش آمدید!</div><div class="ob-desc">اپلیکیشن مدیریت مالی هوشمند شما<br>همه چیز را در یک جا داشته باشید</div><div class="ob-tip">💡 والت کاملاً آفلاین کار می‌کند و داده‌هایتان فقط روی دستگاه شما ذخیره می‌شود</div></div>
+      <div class="ob-slide"><div class="ob-ico">💳</div><div class="ob-title">کارت‌های بانکی</div><div class="ob-desc">کارت‌های بانکی خود را با طراحی واقع‌بینانه<br>شماره کارت، حساب و شبا را ذخیره کنید<br>با یک لمس کپی کنید</div><div class="ob-tip">💡 از بخش «حساب‌ها» می‌توانید کارت‌های بانکی خود را به صورت بصری ببینید</div></div>
+      <div class="ob-slide"><div class="ob-ico">📋</div><div class="ob-title">ثبت تراکنش‌ها</div><div class="ob-desc">هزینه، درآمد، انتقال و پس‌انداز<br>را به سادگی ثبت کنید</div><div class="ob-tip">💡 دکمه ➕ وسط صفحه برای ثبت سریع تراکنش است</div></div>
+      <div class="ob-slide"><div class="ob-ico">🎨</div><div class="ob-title">پوسته‌های متنوع</div><div class="ob-desc">از ۸ تم رنگی زیبا انتخاب کنید<br>شب، روز، اقیانوس، جنگل، غروب و بیشتر<br>رنگ‌ها به صورت خودکار تنظیم می‌شوند</div><div class="ob-tip">💡 از تنظیمات می‌توانید پوسته دلخواه خود را انتخاب کنید</div></div>
+      <div class="ob-slide"><div class="ob-ico">🤖</div><div class="ob-title">مشاور مالی هوشمند</div><div class="ob-desc">با هوش مصنوعی وضعیت مالی‌تان را تحلیل کنید<br>پیشنهادات شخصی‌سازی‌شده دریافت کنید</div><div class="ob-tip">💡 مشاور AI بر اساس داده‌های واقعی شما پاسخ می‌دهد</div></div>
+      <div class="ob-slide"><div class="ob-ico">🔔</div><div class="ob-title">یادآوری پرداخت‌ها</div><div class="ob-desc">قبض‌ها و پرداخت‌های دوره‌ای را تنظیم کنید<br>تقویم شمسی برای تاریخ سررسید</div><div class="ob-tip">💡 تاریخ یادآوری‌ها به تقویم شمسی نمایش داده می‌شود</div></div>
+    </div>
+    <div style="padding:0 30px 30px">
+      <div class="ob-dots" id="obDots"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+      <div class="ob-footer">
+        <button class="btn bg" id="obSkip" style="flex:0 0 auto" onclick="closeOnboarding()">رد کردن</button>
+        <button class="btn bp" id="obNext" style="flex:1;justify-content:center" onclick="obNextSlide()">بعدی ←</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN / RECOVERY -->
+<div id="lp">
+  <div class="card lcard" id="panel-login" style="display:block">
+    <div class="ll"><div class="lm">👜</div><div class="lt">والت</div><div class="ls">مدیریت مالی هوشمند</div></div>
+    <div class="fg"><label class="fl">نام کاربری</label><input class="fi" id="lU" placeholder="admin" value="admin" autocomplete="username"></div>
+    <div class="fg"><label class="fl">رمز عبور</label>
+      <div style="position:relative"><input class="fi" id="lP" type="password" placeholder="••••••" value="admin" autocomplete="current-password" style="padding-left:40px" onkeydown="if(event.key==='Enter')doLogin()"><button onclick="tv('lP',this)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--mu);font-size:16px;padding:0">👁</button></div>
+    </div>
+    <button class="btn bp" style="width:100%;justify-content:center;padding:13px" onclick="doLogin()">ورود به والت ←</button>
+    <div id="lerr" style="display:none;margin-top:9px;padding:9px 13px;border-radius:10px;background:rgba(244,63,94,.1);color:var(--exp);text-align:center;font-size:13px;font-weight:600">نام کاربری یا رمز اشتباه است</div>
+    <div class="rlink" onclick="showPanel('panel-rec-choose')">🔑 رمز عبور را فراموش کردم</div>
+    <div class="lhint">پیش‌فرض: <b>admin / admin</b></div>
+  </div>
+  <div class="card lcard lp-panel" id="panel-rec-choose">
+    <button class="back-btn" onclick="showPanel('panel-login')">← بازگشت</button>
+    <div class="step-dots"><div class="step-dot active"></div><div class="step-dot"></div><div class="step-dot"></div></div>
+    <div style="text-align:center;margin-bottom:22px"><div style="font-size:34px;margin-bottom:9px">🔑</div><div style="font-size:18px;font-weight:800;color:var(--fg)">بازیابی رمز عبور</div><div style="font-size:12px;color:var(--mu);margin-top:4px">روش تأیید هویت را انتخاب کنید</div></div>
+    <div class="method-card" id="methodEmailCard" onclick="chooseMethod('email')"><div class="method-icon" style="background:rgba(59,130,246,.15)">📧</div><div><div class="method-title">ارسال کد به ایمیل</div><div class="method-desc">کد OTP به ایمیل ثبت‌شده ارسال می‌شود</div><div id="emailHint" style="font-size:11px;margin-top:2px"></div></div></div>
+    <div class="method-card" onclick="chooseMethod('code')"><div class="method-icon" style="background:rgba(16,185,129,.15)">🔐</div><div><div class="method-title">کد بازیابی ذخیره‌شده</div><div class="method-desc">کد ۶ کاراکتری که در تنظیمات نمایش داده شده</div></div></div>
+  </div>
+  <div class="card lcard lp-panel" id="panel-rec-otp">
+    <button class="back-btn" onclick="showPanel('panel-rec-choose')">← بازگشت</button>
+    <div class="step-dots"><div class="step-dot done"></div><div class="step-dot active"></div><div class="step-dot"></div></div>
+    <div style="text-align:center;margin-bottom:20px"><div style="font-size:34px;margin-bottom:9px">📧</div><div style="font-size:17px;font-weight:800;color:var(--fg)">کد تأیید ایمیل</div><div style="font-size:12px;color:var(--mu);margin-top:4px">کد به <b id="emailTarget" style="color:var(--acc2)"></b> ارسال می‌شود</div></div>
+    <div id="otpSendSection"><button class="btn bp" style="width:100%;justify-content:center;padding:13px" onclick="sendOTP()" id="sendOtpBtn">📤 ارسال کد OTP</button></div>
+    <div id="otpVerifySection" style="display:none">
+      <div class="otp-boxes"><input class="otp-box" maxlength="1" oninput="otpNext(this,0)" onkeydown="otpBack(event,this,0)" inputmode="numeric" id="ob0"><input class="otp-box" maxlength="1" oninput="otpNext(this,1)" onkeydown="otpBack(event,this,1)" inputmode="numeric" id="ob1"><input class="otp-box" maxlength="1" oninput="otpNext(this,2)" onkeydown="otpBack(event,this,2)" inputmode="numeric" id="ob2"><input class="otp-box" maxlength="1" oninput="otpNext(this,3)" onkeydown="otpBack(event,this,3)" inputmode="numeric" id="ob3"><input class="otp-box" maxlength="1" oninput="otpNext(this,4)" onkeydown="otpBack(event,this,4)" inputmode="numeric" id="ob4"><input class="otp-box" maxlength="1" oninput="otpNext(this,5)" onkeydown="otpBack(event,this,5)" inputmode="numeric" id="ob5"></div>
+      <div id="otpTimerDisp" style="font-size:12px;color:var(--mu);text-align:center;margin-bottom:13px"></div>
+      <button class="btn bsu" style="width:100%;justify-content:center;padding:12px" onclick="verifyOTP()">✓ تأیید کد</button>
+    </div>
+  </div>
+  <div class="card lcard lp-panel" id="panel-rec-code">
+    <button class="back-btn" onclick="showPanel('panel-rec-choose')">← بازگشت</button>
+    <div class="step-dots"><div class="step-dot done"></div><div class="step-dot active"></div><div class="step-dot"></div></div>
+    <div style="text-align:center;margin-bottom:20px"><div style="font-size:34px;margin-bottom:9px">🔐</div><div style="font-size:17px;font-weight:800;color:var(--fg)">کد بازیابی</div></div>
+    <div class="fg"><input class="fi" id="rcode" placeholder="AB12CD" maxlength="6" style="letter-spacing:8px;text-align:center;font-size:24px;font-weight:900;font-family:'Space Mono',monospace" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
+    <button class="btn bp" style="width:100%;justify-content:center;padding:13px" onclick="chkRec()">تأیید کد ←</button>
+  </div>
+  <div class="card lcard lp-panel" id="panel-rec-newpass">
+    <div class="step-dots"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot active"></div></div>
+    <div style="text-align:center;margin-bottom:20px"><div style="font-size:34px;margin-bottom:9px">🔒</div><div style="font-size:17px;font-weight:800;color:var(--fg)">رمز جدید</div></div>
+    <div class="fg"><label class="fl">رمز جدید</label><div style="position:relative"><input class="fi" id="rnp" type="password" placeholder="حداقل ۶ کاراکتر" style="padding-left:40px" oninput="checkPassStr(this.value)"><button onclick="tv('rnp',this)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--mu);font-size:16px;padding:0">👁</button></div></div>
+    <div class="fg"><label class="fl">تکرار رمز</label><input class="fi" id="rcp" type="password" placeholder="••••••"></div>
+    <div id="passStrength" style="margin-bottom:12px;font-size:11px"></div>
+    <button class="btn bsu" style="width:100%;justify-content:center;padding:13px" onclick="doRec()">✓ تغییر رمز و ورود</button>
+  </div>
+  <div class="card lcard lp-panel" id="panel-rec-success">
+    <div style="text-align:center;padding:24px 0"><div class="success-ico">✅</div><div style="font-size:19px;font-weight:800;margin-bottom:7px;color:var(--fg)">رمز تغییر یافت!</div><div style="font-size:13px;color:var(--mu);margin-bottom:22px">رمز عبور شما با موفقیت بازیابی شد</div><button class="btn bp" style="width:100%;justify-content:center;padding:13px" onclick="showPanel('panel-login')">ورود به والت ←</button></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none">
+  <!-- SIDEBAR -->
+  <nav id="sb">
+    <div class="sb-logo"><div class="sb-mark">👜</div><div><div class="sb-nm">والت</div><div class="sb-sub">مدیریت مالی</div></div></div>
+    <div class="ni active" data-v="dashboard" onclick="go('dashboard')"><span class="ni-i">📊</span><span>داشبورد</span></div>
+    <div class="ni" data-v="transactions" onclick="go('transactions')"><span class="ni-i">📋</span><span>تراکنش‌ها</span></div>
+    <div class="ni" data-v="accounts" onclick="go('accounts')"><span class="ni-i">💳</span><span>حساب‌ها</span></div>
+    <div class="ni" data-v="goals" onclick="go('goals')"><span class="ni-i">🏆</span><span>اهداف مالی</span></div>
+    <div class="ni" data-v="budget" onclick="go('budget')"><span class="ni-i">🎯</span><span>بودجه‌بندی</span></div>
+    <div class="ni" data-v="reminders" onclick="go('reminders')"><span class="ni-i">🔔</span><span>یادآوری‌ها</span><span class="ni-bd" id="niBd">0</span></div>
+    <div class="ni" data-v="analytics" onclick="go('analytics')"><span class="ni-i">📈</span><span>تحلیل مالی</span></div>
+    <div class="ni" data-v="ai" onclick="go('ai')"><span class="ni-i">🤖</span><span>مشاور AI</span></div>
+    <div class="ni" data-v="settings" onclick="go('settings')"><span class="ni-i">⚙️</span><span>تنظیمات</span></div>
+    <div class="sb-sp"></div>
+    <div id="sbInst" style="display:none"><button class="btn bp" style="width:100%;justify-content:center;font-size:12px;margin-bottom:7px" onclick="instPwa()">📲 نصب اپلیکیشن</button></div>
+    <div class="sb-user" onclick="go('settings')"><div class="s-av" id="sAv">A</div><div><div class="s-un" id="sUn">admin</div><div class="s-ur">مدیر سیستم</div></div></div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div id="ct">
+
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="tb">
+        <div><div class="pg-t">خوش آمدید 👋</div><div class="pg-s" id="dd"></div></div>
+        <div class="tb-a">
+          <button class="btn bg bico" onclick="openThemePicker()" title="تم">🎨</button>
+          <button class="btn bg bico" onclick="go('ai')" title="مشاور AI">🤖</button>
+          <button class="btn bp" onclick="openM('addTx')">➕ تراکنش</button>
+        </div>
+      </div>
+      <div class="g4" style="margin-bottom:14px">
+        <div class="card sc"><div class="scg" style="background:var(--inc)"></div><div class="sco" style="background:rgba(16,185,129,.15)">💚</div><div class="scb" style="background:rgba(16,185,129,.15);color:var(--inc2)">درآمد ماه</div><div class="scv" style="color:var(--inc2)" id="sInc">۰</div><div class="scl">تومان</div></div>
+        <div class="card sc"><div class="scg" style="background:var(--exp)"></div><div class="sco" style="background:rgba(244,63,94,.15)">🔴</div><div class="scb" style="background:rgba(244,63,94,.15);color:var(--exp2)">هزینه ماه</div><div class="scv" style="color:var(--exp2)" id="sExp">۰</div><div class="scl">تومان</div></div>
+        <div class="card sc"><div class="scg" style="background:var(--sav)"></div><div class="sco" style="background:rgba(139,92,246,.15)">🏦</div><div class="scb" style="background:rgba(139,92,246,.15);color:var(--sav2)">پس‌انداز</div><div class="scv" style="color:var(--sav2)" id="sSav">۰</div><div class="scl">تومان</div></div>
+        <div class="card sc"><div class="scg" style="background:var(--gld)"></div><div class="sco" style="background:rgba(245,158,11,.15)">✨</div><div class="scb" style="background:rgba(245,158,11,.15);color:var(--gld2)">کل دارایی</div><div class="scv" style="color:var(--gld2)" id="sTot">۰</div><div class="scl">تومان</div></div>
+      </div>
+      <div id="dashInsights" style="margin-bottom:14px"></div>
+      <div class="sh"><div class="st">💳 موجودی حساب‌ها</div><span class="sl" onclick="openM('addAccount')">+ افزودن</span></div>
+      <div id="dashABC" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:14px"></div>
+      <div class="g2" style="margin-bottom:14px">
+        <div class="card"><div style="padding:14px"><div class="sh" style="margin-bottom:9px"><div class="st">ترکیب مالی</div></div><canvas id="donutC" style="max-height:165px"></canvas></div></div>
+        <div class="card"><div style="padding:14px"><div class="sh" style="margin-bottom:9px"><div class="st">روند ۷ روز</div></div><canvas id="trendC" style="max-height:165px"></canvas></div></div>
+      </div>
+      <div id="dashRem" style="margin-bottom:14px"></div>
+      <div class="card cp"><div class="sh"><div class="st">آخرین تراکنش‌ها</div><span class="sl" onclick="go('transactions')">همه ←</span></div><div class="txlist" id="dTx"></div></div>
+    </div>
+
+    <!-- TRANSACTIONS -->
+    <div class="view" id="view-transactions">
+      <div class="tb"><div><div class="pg-t">تراکنش‌ها</div><div class="pg-s" id="txCnt">۰ تراکنش</div></div><div class="tb-a"><button class="btn bp" onclick="openM('addTx')">➕ جدید</button></div></div>
+      <div class="srch"><span>🔍</span><input id="txSrch" placeholder="جستجو..." oninput="renderTx()"></div>
+      <div class="card" style="padding:11px 14px;margin-bottom:12px"><div class="ftabs">
+        <button class="ftab active" onclick="setF(this,'all')">همه</button>
+        <button class="ftab" onclick="setF(this,'income')">💚 درآمد</button>
+        <button class="ftab" onclick="setF(this,'expense')">🔴 هزینه</button>
+        <button class="ftab" onclick="setF(this,'transfer')">🔄 انتقال</button>
+        <button class="ftab" onclick="setF(this,'savings_deposit')">🏦 پس‌انداز</button>
+      </div></div>
+      <div class="card" style="overflow:hidden"><div style="overflow-x:auto"><table class="dt"><thead><tr><th>عنوان</th><th>حساب</th><th>دسته</th><th>تاریخ</th><th>مبلغ</th><th></th></tr></thead><tbody id="txTbl"></tbody></table></div>
+      <div class="empty" id="txEmp" style="display:none"><div class="ei">📋</div><div class="et">تراکنشی یافت نشد</div></div></div>
+    </div>
+
+    <!-- ACCOUNTS -->
+    <div class="view" id="view-accounts">
+      <div class="tb"><div><div class="pg-t">حساب‌ها و کارت‌ها</div></div><div class="tb-a"><button class="btn bp" onclick="openM('addAccount')">➕ افزودن</button></div></div>
+      <div class="ga" id="accGrd"></div>
+      <div class="card" style="margin-top:14px"><div class="cp" style="padding-bottom:12px">
+        <div class="st" style="margin-bottom:12px">⚡ افزودن / کسر سریع موجودی</div>
+        <div class="fr fr2"><div class="fg" style="margin:0"><label class="fl">حساب</label><select class="fi fs" id="qAccS"></select></div><div class="fg" style="margin:0"><label class="fl">مبلغ (تومان)</label><input class="fi" id="qAmt" type="text" inputmode="numeric" placeholder="مقدار"></div></div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn bsu" style="flex:1;justify-content:center" onclick="qAdd()">💰 افزودن</button><button class="btn bg" style="flex:1;justify-content:center" onclick="qSub()">➖ کسر</button></div>
+      </div></div>
+      <div class="card cp" style="margin-top:14px">
+        <div class="sh"><div><div class="st">🏦 صندوق پس‌انداز</div></div><div style="font-size:20px;font-weight:900;color:var(--sav2)" id="savD">۰</div></div>
+        <div class="fr fr3"><div><label class="fl">مبلغ</label><input class="fi" id="savA" type="text" inputmode="numeric" placeholder="تومان"></div><div><label class="fl">از حساب</label><select class="fi fs" id="savAcc"></select></div><div style="display:flex;gap:6px;align-items:flex-end"><button class="btn bsv" style="flex:1" onclick="savOp('deposit')">واریز</button><button class="btn bg" style="flex:1" onclick="savOp('withdraw')">برداشت</button></div></div>
+      </div>
+    </div>
+
+    <!-- GOALS -->
+    <div class="view" id="view-goals">
+      <div class="tb"><div><div class="pg-t">🏆 اهداف مالی</div><div class="pg-s">پس‌انداز هدفمند</div></div><div class="tb-a"><button class="btn bp" onclick="openM('addGoal')">➕ هدف جدید</button></div></div>
+      <div id="goalsList"></div>
+    </div>
+
+    <!-- BUDGET -->
+    <div class="view" id="view-budget">
+      <div class="tb"><div><div class="pg-t">🎯 بودجه‌بندی</div><div class="pg-s">کنترل هزینه ماهانه</div></div><div class="tb-a"><button class="btn bp" onclick="openM('addBudget')">➕ بودجه</button></div></div>
+      <div class="g3" style="margin-bottom:14px">
+        <div class="card sc"><div class="scb" style="background:rgba(16,185,129,.15);color:var(--inc2)">کل بودجه</div><div class="scv" style="color:var(--inc2)" id="bTot">۰</div><div class="scl">تومان</div></div>
+        <div class="card sc"><div class="scb" style="background:rgba(244,63,94,.15);color:var(--exp2)">مصرف شده</div><div class="scv" style="color:var(--exp2)" id="bUsed">۰</div><div class="scl">تومان</div></div>
+        <div class="card sc"><div class="scb" style="background:rgba(139,92,246,.15);color:var(--sav2)">باقیمانده</div><div class="scv" style="color:var(--sav2)" id="bLeft">۰</div><div class="scl">تومان</div></div>
+      </div>
+      <div class="card cp" id="budgetList"><div class="empty"><div class="ei">🎯</div><div class="et">هنوز بودجه‌ای تنظیم نشده</div></div></div>
+    </div>
+
+    <!-- REMINDERS -->
+    <div class="view" id="view-reminders">
+      <div class="tb"><div><div class="pg-t">🔔 یادآوری‌ها</div><div class="pg-s">پرداخت‌های پیش رو</div></div><div class="tb-a"><button class="btn bp" onclick="openM('addReminder')">➕ یادآور</button></div></div>
+      <div id="remList"></div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="view" id="view-analytics">
+      <div class="tb"><div><div class="pg-t">📈 تحلیل مالی</div></div></div>
+      <div class="g2" style="margin-bottom:14px">
+        <div class="card"><div style="padding:14px"><div class="sh" style="margin-bottom:9px"><div class="st">درآمد vs هزینه</div></div><canvas id="barC" style="max-height:165px"></canvas></div></div>
+        <div class="card"><div style="padding:14px"><div class="sh" style="margin-bottom:9px"><div class="st">توزیع هزینه‌ها</div></div><canvas id="pieC" style="max-height:165px"></canvas></div></div>
+      </div>
+      <div class="card" style="margin-bottom:14px"><div style="padding:14px"><div class="sh" style="margin-bottom:9px"><div class="st">روند دارایی (۶ ماه)</div></div><canvas id="netC" style="max-height:155px"></canvas></div></div>
+      <div class="card cp"><div class="st" style="margin-bottom:13px">خلاصه دسته‌بندی‌ها</div><div id="catS"></div></div>
+    </div>
+
+    <!-- AI ADVISOR -->
+    <div class="view" id="view-ai">
+      <div class="tb"><div><div class="pg-t">🤖 مشاور مالی AI</div><div class="pg-s">تحلیل هوشمند بر اساس داده‌های شما</div></div><div class="tb-a"><button class="btn bg bico" onclick="clearAI()" title="پاک کردن">🗑️</button></div></div>
+      <div class="card cp" style="margin-bottom:14px">
+        <div class="st" style="margin-bottom:9px">💡 سوال‌های پیشنهادی</div>
+        <div class="ai-quick">
+          <button class="ai-qbtn" onclick="askAI('وضعیت مالی ماه جاری من چطور است؟')">📊 وضعیت مالی</button>
+          <button class="ai-qbtn" onclick="askAI('چگونه پس‌انداز بیشتری داشته باشم؟')">💰 پس‌انداز</button>
+          <button class="ai-qbtn" onclick="askAI('هزینه‌های غیرضروری من کدام‌هاست؟')">✂️ کاهش هزینه</button>
+          <button class="ai-qbtn" onclick="askAI('برنامه بودجه‌بندی پیشنهادی بده')">🎯 بودجه‌بندی</button>
+          <button class="ai-qbtn" onclick="askAI('چه سرمایه‌گذاری برای من مناسب است؟')">📈 سرمایه‌گذاری</button>
+          <button class="ai-qbtn" onclick="askAI('تراکنش‌های این ماه را تحلیل کن')">🔍 تحلیل ماه</button>
+        </div>
+      </div>
+      <div class="card cp" style="margin-bottom:14px">
+        <div class="ai-chat" id="aiChat"><div class="ai-msg bot">سلام! 👋 من مشاور مالی هوشمند والت هستم. بر اساس تراکنش‌ها، بودجه و اهداف مالی شما راهنمایی می‌کنم. چه کمکی می‌توانم بکنم؟</div></div>
+        <div class="ai-input-row"><input class="fi" id="aiInp" placeholder="سوال مالی خود را بپرسید..." style="flex:1" onkeydown="if(event.key==='Enter')sendAI()"><button class="btn bp" onclick="sendAI()" style="flex-shrink:0">ارسال →</button></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="view" id="view-settings">
+      <div class="tb"><div class="pg-t">⚙️ تنظیمات</div></div>
+      <!-- Theme Picker Section -->
+      <div class="card cp" style="margin-bottom:14px">
+        <div class="st" style="margin-bottom:14px">🎨 انتخاب پوسته</div>
+        <div class="theme-grid" id="themeGrid"></div>
+      </div>
+      <div class="g2">
+        <div class="card cp">
+          <div class="st" style="margin-bottom:14px">👤 حساب کاربری</div>
+          <div class="fg"><label class="fl">نام کاربری جدید</label><input class="fi" id="sU" placeholder="نام کاربری"></div>
+          <div class="fg"><label class="fl">ایمیل (بازیابی رمز)</label><input class="fi" id="sEmail" placeholder="email@example.com" type="email"></div>
+          <div class="fg"><label class="fl">رمز فعلی</label><input class="fi" type="password" id="sCP" placeholder="••••••"></div>
+          <div class="fg"><label class="fl">رمز جدید</label><input class="fi" type="password" id="sNP" placeholder="••••••"></div>
+          <div class="fg"><label class="fl">تکرار رمز جدید</label><input class="fi" type="password" id="sCF" placeholder="••••••"></div>
+          <div class="fg"><label class="fl">کد بازیابی — نگه دارید!</label><div style="padding:12px;border-radius:11px;background:var(--bg3);border:2px dashed var(--acc);text-align:center;font-size:19px;font-weight:800;letter-spacing:6px;color:var(--acc2)" id="rcShow"></div></div>
+          <button class="btn bp" style="width:100%;justify-content:center" onclick="saveSet()">ذخیره تنظیمات</button>
+        </div>
+        <div class="card cp">
+          <div class="st" style="margin-bottom:14px">💾 داده و اپ</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div id="settInst" style="display:none"><button class="btn bp" style="width:100%;justify-content:center" onclick="instPwa()">📲 نصب اپلیکیشن</button></div>
+            <button class="btn bg" style="justify-content:center" onclick="showOnboarding()">📖 راهنمای استفاده</button>
+            <button class="btn bg" style="justify-content:center" onclick="expData()">📤 خروجی JSON</button>
+            <label class="btn bg" style="justify-content:center;cursor:pointer">📥 وارد کردن داده<input type="file" accept=".json" style="display:none" onchange="impData(event)"></label>
+            <div class="div"></div>
+            <button class="btn bg" style="justify-content:center;color:var(--exp)" onclick="clearAll()">🗑️ پاک کردن همه داده‌ها</button>
+            <button class="btn bg" style="justify-content:center" onclick="doLogout()">🚪 خروج از حساب</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /ct -->
+
+  <!-- BOTTOM NAV MOBILE -->
+  <div id="bn">
+    <div class="bn-inner">
+      <div class="bni active" data-v="dashboard" onclick="go('dashboard')"><div class="bni-i">📊</div><div class="bni-l">داشبورد</div></div>
+      <div class="bni" data-v="transactions" onclick="go('transactions')"><div class="bni-i">📋</div><div class="bni-l">تراکنش‌ها</div></div>
+      <div class="bn-fab-wrap"><button class="bn-fab" onclick="openM('addTx')" title="تراکنش جدید">＋</button></div>
+      <div class="bni" data-v="reminders" onclick="go('reminders')"><div class="bni-i">🔔</div><div class="bni-l">یادآور</div><div class="bni-bd" id="bnBd">0</div></div>
+      <div class="bni" data-v="settings" onclick="go('settings')"><div class="bni-i">⚙️</div><div class="bni-l">تنظیمات</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<!-- ADD TX -->
+<div class="mo" id="mo-addTx">
+  <div class="modal"><div class="mhndl"></div>
+    <div class="mh"><div class="mt">ثبت تراکنش جدید</div><button class="mc" onclick="closeM('mo-addTx')">✕</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">نوع تراکنش</label>
+        <div class="ttog">
+          <button class="tt active" data-t="expense" onclick="setTT('expense')"><span class="tt-ico">💸</span><span>هزینه</span></button>
+          <button class="tt" data-t="income" onclick="setTT('income')"><span class="tt-ico">💰</span><span>درآمد</span></button>
+          <button class="tt" data-t="transfer" onclick="setTT('transfer')"><span class="tt-ico">🔄</span><span>انتقال</span></button>
+          <button class="tt" data-t="savings_deposit" onclick="setTT('savings_deposit')"><span class="tt-ico">🏦</span><span>پس‌انداز</span></button>
+          <button class="tt" data-t="savings_withdraw" onclick="setTT('savings_withdraw')"><span class="tt-ico">💵</span><span>برداشت</span></button>
+        </div>
+      </div>
+      <div class="fr fr2">
+        <div class="fg"><label class="fl">مبلغ (تومان)</label><input class="fi" id="tAmt" type="text" inputmode="numeric" placeholder="۰" oninput="updPrev()"></div>
+        <div class="fg" id="tCatW"><label class="fl">دسته‌بندی</label><select class="fi fs" id="tCat">
+          <option value="خوراک">🍔 خوراک</option><option value="حمل‌ونقل">🚗 حمل‌ونقل</option>
+          <option value="خرید">🛍️ خرید</option><option value="سلامت">💊 سلامت</option>
+          <option value="آموزش">📚 آموزش</option><option value="سرگرمی">🎮 سرگرمی</option>
+          <option value="قبوض">📃 قبوض</option><option value="حقوق">💼 حقوق</option>
+          <option value="سود">📈 سود</option><option value="سایر">📦 سایر</option>
+        </select></div>
+      </div>
+      <div class="fg"><label class="fl">عنوان (اختیاری)</label><input class="fi" id="tTtl" placeholder="توضیح کوتاه..."></div>
+      <div class="fr fr2">
+        <div class="fg"><label class="fl" id="tAccL">حساب</label><select class="fi fs" id="tAcc"></select></div>
+        <div class="fg" id="tToW" style="display:none"><label class="fl">حساب مقصد</label><select class="fi fs" id="tToA"></select></div>
+      </div>
+      <div class="amt-pill" id="amtPill"><span id="amtV" style="font-size:21px;font-weight:900;color:var(--mu)">مبلغ تراکنش</span></div>
+      <button class="btn bp" style="width:100%;justify-content:center;padding:13px" onclick="subTx()">✓ ثبت تراکنش</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD ACCOUNT -->
+<div class="mo" id="mo-addAccount">
+  <div class="modal"><div class="mhndl"></div>
+    <div class="mh"><div class="mt">افزودن حساب جدید</div><button class="mc" onclick="closeM('mo-addAccount')">✕</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">نام بانک / حساب</label><input class="fi" id="aN" placeholder="مثلاً: بانک ملی" oninput="updCP()"></div>
+      <div class="fg"><label class="fl">نام صاحب کارت</label><input class="fi" id="aH" placeholder="مثلاً: علی احمدی" oninput="updCP()"></div>
+      <div class="fg"><label class="fl">موجودی اولیه (تومان)</label><input class="fi" id="aB" type="text" inputmode="numeric" placeholder="۰" oninput="updCP()"></div>
+      <div class="fg"><label class="fl">شماره کارت ۱۶ رقمی (اختیاری)</label><input class="fi" id="aCard" placeholder="xxxx-xxxx-xxxx-xxxx" maxlength="19" oninput="fmtCard(this);updCP()"></div>
+      <div class="fg"><label class="fl">شماره حساب (اختیاری)</label><input class="fi" id="aAccN" placeholder="مثلاً: 0110123456789"></div>
+      <div class="fg"><label class="fl">شماره شبا / IBAN (اختیاری)</label><input class="fi" id="aIban" placeholder="IR000000000000000000000000" oninput="fmtIban(this)"></div>
+      <div class="fg"><label class="fl">رنگ کارت</label>
+        <div class="cpick" id="cpick">
+          <div class="cpd sel" data-c="cg-blue" style="background:linear-gradient(135deg,#0f2877,#1565c0)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-green" style="background:linear-gradient(135deg,#0a3d1f,#388e3c)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-red" style="background:linear-gradient(135deg,#5c0000,#c62828)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-purple" style="background:linear-gradient(135deg,#2e0558,#7c3aed)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-gold" style="background:linear-gradient(135deg,#78350f,#f59e0b)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-cyan" style="background:linear-gradient(135deg,#0c4a6e,#0ea5e9)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-pink" style="background:linear-gradient(135deg,#500724,#ec4899)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-slate" style="background:linear-gradient(135deg,#0f172a,#475569)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-titanium" style="background:linear-gradient(135deg,#1c1c1e,#48484a)" onclick="sc(this)"></div>
+          <div class="cpd" data-c="cg-emerald" style="background:linear-gradient(135deg,#064e3b,#059669)" onclick="sc(this)"></div>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:0"><label class="fl">پیش‌نمایش کارت</label><div id="cardPrev"></div></div>
+      <button class="btn bp" style="width:100%;justify-content:center;padding:13px;margin-top:14px" onclick="subAcc()">✓ افزودن حساب</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD BUDGET -->
+<div class="mo" id="mo-addBudget">
+  <div class="modal" style="max-width:420px"><div class="mhndl"></div>
+    <div class="mh"><div class="mt">🎯 تنظیم بودجه</div><button class="mc" onclick="closeM('mo-addBudget')">✕</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">دسته‌بندی</label><select class="fi fs" id="bCat">
+        <option value="خوراک">🍔 خوراک</option><option value="حمل‌ونقل">🚗 حمل‌ونقل</option>
+        <option value="خرید">🛍️ خرید</option><option value="سلامت">💊 سلامت</option>
+        <option value="آموزش">📚 آموزش</option><option value="سرگرمی">🎮 سرگرمی</option>
+        <option value="قبوض">📃 قبوض</option><option value="سایر">📦 سایر</option>
+      </select></div>
+      <div class="fg"><label class="fl">سقف ماهانه (تومان)</label><input class="fi" id="bAmt" type="text" inputmode="numeric" placeholder="مقدار"></div>
+      <button class="btn bp" style="width:100%;justify-content:center" onclick="subBudget()">ذخیره بودجه</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD REMINDER -->
+<div class="mo" id="mo-addReminder">
+  <div class="modal" style="max-width:420px"><div class="mhndl"></div>
+    <div class="mh"><div class="mt">🔔 یادآور پرداخت</div><button class="mc" onclick="closeM('mo-addReminder')">✕</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">عنوان</label><input class="fi" id="remTtl" placeholder="مثلاً: قبض برق"></div>
+      <div class="fr fr2">
+        <div class="fg"><label class="fl">مبلغ (اختیاری)</label><input class="fi" id="remAmt" type="text" inputmode="numeric" placeholder="۰"></div>
+        <div class="fg" style="position:relative">
+          <label class="fl">تاریخ سررسید (شمسی)</label>
+          <div class="jpicker" id="remDateDisplay" onclick="toggleJCal(event)">
+            <span id="remDateTxt" style="color:var(--mu)">انتخاب تاریخ...</span>
+            <span>📅</span>
+          </div>
+          <div class="jcal" id="jcal"></div>
+        </div>
+      </div>
+      <input type="hidden" id="remDate">
+      <div class="fg"><label class="fl">رنگ</label>
+        <div style="display:flex;gap:9px" id="remColors">
+          <div class="cpd sel" data-rc="#3b82f6" style="background:#3b82f6" onclick="selRC(this)"></div>
+          <div class="cpd" data-rc="#10b981" style="background:#10b981" onclick="selRC(this)"></div>
+          <div class="cpd" data-rc="#f43f5e" style="background:#f43f5e" onclick="selRC(this)"></div>
+          <div class="cpd" data-rc="#f59e0b" style="background:#f59e0b" onclick="selRC(this)"></div>
+          <div class="cpd" data-rc="#8b5cf6" style="background:#8b5cf6" onclick="selRC(this)"></div>
+        </div>
+      </div>
+      <button class="btn bp" style="width:100%;justify-content:center" onclick="subReminder()">✓ افزودن یادآور</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD GOAL -->
+<div class="mo" id="mo-addGoal">
+  <div class="modal" style="max-width:420px"><div class="mhndl"></div>
+    <div class="mh"><div class="mt">🏆 هدف مالی جدید</div><button class="mc" onclick="closeM('mo-addGoal')">✕</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">عنوان هدف</label><input class="fi" id="goalTitle" placeholder="مثلاً: خرید لپ‌تاپ"></div>
+      <div class="fr fr2">
+        <div class="fg"><label class="fl">مبلغ هدف (تومان)</label><input class="fi" id="goalAmt" type="text" inputmode="numeric" placeholder="مقدار کل"></div>
+        <div class="fg"><label class="fl">مبلغ فعلی (تومان)</label><input class="fi" id="goalCur" type="text" inputmode="numeric" placeholder="پس‌انداز شده"></div>
+      </div>
+      <div class="fg"><label class="fl">آیکون</label>
+        <div style="display:flex;gap:9px;flex-wrap:wrap" id="goalIcons">
+          <span class="goal-ico-pick sel" data-ico="🏠" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid var(--acc)">🏠</span>
+          <span class="goal-ico-pick" data-ico="🚗" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid transparent">🚗</span>
+          <span class="goal-ico-pick" data-ico="✈️" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid transparent">✈️</span>
+          <span class="goal-ico-pick" data-ico="💻" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid transparent">💻</span>
+          <span class="goal-ico-pick" data-ico="📱" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid transparent">📱</span>
+          <span class="goal-ico-pick" data-ico="💍" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid transparent">💍</span>
+          <span class="goal-ico-pick" data-ico="🎓" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid transparent">🎓</span>
+          <span class="goal-ico-pick" data-ico="🏦" onclick="selGoalIco(this)" style="font-size:24px;cursor:pointer;padding:5px;border-radius:8px;border:2px solid transparent">🏦</span>
+        </div>
+      </div>
+      <button class="btn bp" style="width:100%;justify-content:center" onclick="subGoal()">ذخیره هدف</button>
+    </div>
+  </div>
+</div>
+
+<!-- THEME PICKER MODAL -->
+<div class="mo" id="mo-theme">
+  <div class="modal" style="max-width:420px"><div class="mhndl"></div>
+    <div class="mh"><div class="mt">🎨 انتخاب پوسته</div><button class="mc" onclick="closeM('mo-theme')">✕</button></div>
+    <div class="mb">
+      <div class="theme-grid" id="themeGridModal"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span id="tIco"></span><span id="tTxt"></span></div>
+
+<script>
+/* ══════════════════════════════════
+   THEMES CONFIG
+══════════════════════════════════ */
+const THEMES = [
+  { id:'midnight', name:'شب آبی', emoji:'🌙', preview:'linear-gradient(135deg,#0a0f1e,#3b82f6,#8b5cf6)' },
+  { id:'ocean',    name:'اقیانوس', emoji:'🌊', preview:'linear-gradient(135deg,#001529,#00d4ff,#0369a1)' },
+  { id:'forest',   name:'جنگل',   emoji:'🌿', preview:'linear-gradient(135deg,#0a1f0a,#22c55e,#065f46)' },
+  { id:'sunset',   name:'غروب',   emoji:'🌅', preview:'linear-gradient(135deg,#1a0a1e,#f43f5e,#f97316)' },
+  { id:'gold',     name:'طلایی',  emoji:'✨', preview:'linear-gradient(135deg,#1a1200,#f59e0b,#d97706)' },
+  { id:'light',    name:'روشن',   emoji:'☀️', preview:'linear-gradient(135deg,#f5f7ff,#3b82f6,#e0e8ff)' },
+  { id:'rosegold', name:'رز گلد', emoji:'🌸', preview:'linear-gradient(135deg,#1e1014,#e879a0,#fda4af)' },
+  { id:'slate',    name:'اسلیت',  emoji:'🪨', preview:'linear-gradient(135deg,#0f1117,#818cf8,#334155)' },
+];
+
+/* ══════════════════════════════════
+   STATE
+══════════════════════════════════ */
+let S={
+  user:{username:'admin',password:'admin',rc:'',email:''},
+  accounts:[],transactions:[],sav:0,theme:'midnight',
+  budgets:[],reminders:[],goals:[]
+};
+let txF='all',curTT='expense',selClr='cg-blue',remClr='#3b82f6',selGoalIcon='🏠',dInst=null;
+let CH={};
+let otpCode='',otpTimer=null;
+let aiHistory=[];
+
+// Jalali picker state
+let jCalDate={y:0,m:0,d:0};
+let jViewY=0,jViewM=0;
+
+/* ══════════════════════════════════
+   JALALI ENGINE
+══════════════════════════════════ */
+// ═══════════════════════════════════════
+// JALALI ENGINE — fully verified algorithm
+// toJalali: ICU-based (tested correct)
+// toGregorian: fourmilab + offset fix (tested correct)
+// All round-trips verified: 2026-06-10 ↔ 1405/03/20 ✓
+// ═══════════════════════════════════════
+const JD = {
+  // Gregorian → Jalali (ICU/CLDR algorithm)
+  toJalali(gy, gm, gd) {
+    const PERSIAN_EPOCH = 1948320;
+    const a = Math.floor((14 - gm) / 12);
+    const y = gy + 4800 - a;
+    const m = gm + 12 * a - 3;
+    const jdn = gd + Math.floor((153 * m + 2) / 5) + 365 * y +
+      Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+    let dc = jdn - PERSIAN_EPOCH + 1;
+    let jy = Math.floor((33 * (dc - 1) + 3) / 12053);
+    dc -= 365 * jy + Math.floor((8 * jy + 29) / 33);
+    jy += 1;
+    let jmonth, jday;
+    if (dc <= 185) {
+      jmonth = Math.ceil(dc / 31);
+      jday = dc - 31 * (jmonth - 1);
+    } else {
+      const dc2 = dc - 185;
+      jmonth = 7 + Math.ceil(dc2 / 30);
+      jday = dc2 - 30 * (jmonth - 8);
+    }
+    return [jy, jmonth, jday];
+  },
+
+  // Jalali → Gregorian (fourmilab algorithm, verified)
+  toGregorian(jy, jm, jd) {
+    const epbase = jy - (jy >= 0 ? 474 : 473);
+    const epyear = 474 + (((epbase % 2820) + 2820) % 2820);
+    const jdn = jd +
+      (jm <= 7 ? (jm - 1) * 31 : (jm - 1) * 30 + 6) +
+      Math.floor((epyear * 682 - 110) / 2816) +
+      (epyear - 1) * 365 +
+      Math.floor(epbase / 2820) * 1029983 +
+      1948319 + 1;
+    const wjd = Math.floor(jdn - 0.5) + 0.5;
+    const depoch = wjd - 1721425.5;
+    const quadricent = Math.floor(depoch / 146097);
+    const dqc = depoch % 146097;
+    const cent = Math.floor(dqc / 36524);
+    const dcent = dqc % 36524;
+    const quad = Math.floor(dcent / 1461);
+    const dquad = dcent % 1461;
+    const yindex = Math.floor(dquad / 365);
+    let gy = (quadricent * 400) + (cent * 100) + (quad * 4) + yindex;
+    if (!((cent === 4) || (yindex === 4))) gy++;
+    const yearday = wjd - (1721425.5 + (365 * (gy - 1)) +
+      Math.floor((gy - 1) / 4) - Math.floor((gy - 1) / 100) + Math.floor((gy - 1) / 400));
+    const isLeap = (gy % 4 === 0 && (gy % 100 !== 0 || gy % 400 === 0));
+    const leapadj = (wjd < 1721425.5 + (365 * gy) + Math.floor(gy / 4) -
+      Math.floor(gy / 100) + Math.floor(gy / 400) - 58) ? 0 : (isLeap ? 1 : 2);
+    const gm = Math.floor(((yearday + leapadj) * 12 + 373) / 367);
+    const gd = wjd - (1721425.5 + (365 * (gy - 1)) +
+      Math.floor((gy - 1) / 4) - Math.floor((gy - 1) / 100) + Math.floor((gy - 1) / 400) +
+      Math.floor((367 * gm - 362) / 12) + (gm <= 2 ? 0 : isLeap ? -1 : -2));
+    return [gy, gm, Math.round(gd) + 1];
+  },
+
+  todayJalali() {
+    const t = new Date();
+    return this.toJalali(t.getFullYear(), t.getMonth() + 1, t.getDate());
+  },
+
+  daysInJMonth(y, m) {
+    if (m <= 6) return 31;
+    if (m <= 11) return 30;
+    // Esfand leap check
+    const epbase = y - (y >= 0 ? 474 : 473);
+    const epyear = 474 + (((epbase % 2820) + 2820) % 2820);
+    return (((epyear * 682 - 110) % 2816) < 682) ? 30 : 29;
+  },
+
+  toISOFromJalali(y, m, d) {
+    const [gy, gm, gd] = this.toGregorian(y, m, d);
+    return `${gy}-${String(gm).padStart(2,'0')}-${String(gd).padStart(2,'0')}`;
+  },
+
+  fromISO(iso) {
+    if (!iso) return [0, 0, 0];
+    const parts = iso.split('T')[0].split('-').map(Number);
+    if (parts.length < 3 || !parts[0]) return [0, 0, 0];
+    return this.toJalali(parts[0], parts[1], parts[2]);
+  }
+};
+
+/* ══════════════════════════════════
+   JALALI CALENDAR WIDGET
+══════════════════════════════════ */
+function toggleJCal(event){
+  if(event) event.stopPropagation();
+  const cal=document.getElementById('jcal');
+  if(cal.classList.contains('open')){cal.classList.remove('open');return;}
+  // Always init from selected date or today
+  if(jCalDate.y){
+    jViewY=jCalDate.y; jViewM=jCalDate.m;
+  } else {
+    const[y,m]=JD.todayJalali(); jViewY=y; jViewM=m;
+  }
+  renderJCal();
+  cal.classList.add('open');
+}
+function renderJCal(){
+  const cal=document.getElementById('jcal');
+  const today=JD.todayJalali();
+  const mn=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+  const dow=['ش','ی','د','س','چ','پ','ج'];
+  const[fy,fm,fd]=JD.toGregorian(jViewY,jViewM,1);
+  const firstDay=new Date(fy,fm-1,fd).getDay();
+  const offset=(firstDay+1)%7;
+  const days=JD.daysInJMonth(jViewY,jViewM);
+  let html=`<div class="jcal-head">
+    <button class="jcal-nav" onclick="jCalNav(1);event.stopPropagation()">›</button>
+    <span class="jcal-title">${mn[jViewM-1]} ${jViewY}</span>
+    <button class="jcal-nav" onclick="jCalNav(-1);event.stopPropagation()">‹</button>
+  </div><div class="jcal-grid">`;
+  dow.forEach(d=>html+=`<div class="jcal-dow">${d}</div>`);
+  for(let i=0;i<offset;i++) html+=`<div class="jcal-day empty"></div>`;
+  for(let d=1;d<=days;d++){
+    const isToday=jViewY===today[0]&&jViewM===today[1]&&d===today[2];
+    const isSel=jCalDate.y===jViewY&&jCalDate.m===jViewM&&jCalDate.d===d;
+    html+=`<div class="jcal-day${isToday?' today':''}${isSel?' selected':''}" onclick="selectJDay(${d});event.stopPropagation()">${d}</div>`;
+  }
+  html+='</div>';
+  cal.innerHTML=html;
+}
+function jCalNav(dir){
+  jViewM+=dir;
+  if(jViewM>12){jViewM=1;jViewY++;}
+  if(jViewM<1){jViewM=12;jViewY--;}
+  renderJCal();
+}
+function selectJDay(d){
+  jCalDate={y:jViewY,m:jViewM,d};
+  const mn=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+  document.getElementById('remDateTxt').textContent=`${d} ${mn[jViewM-1]} ${jViewY}`;
+  document.getElementById('remDateTxt').style.color='var(--fg)';
+  document.getElementById('remDate').value=JD.toISOFromJalali(jViewY,jViewM,d);
+  document.getElementById('jcal').classList.remove('open');
+}
+document.addEventListener('click',function(e){
+  const cal=document.getElementById('jcal');
+  const picker=document.getElementById('remDateDisplay');
+  if(cal&&cal.classList.contains('open')&&!cal.contains(e.target)&&picker&&!picker.contains(e.target)){
+    cal.classList.remove('open');
+  }
+});
+
+/* ══════════════════════════════════
+   THEME SYSTEM
+══════════════════════════════════ */
+function applyTheme(id){
+  document.body.setAttribute('data-theme',id);
+  const th=THEMES.find(t=>t.id===id);
+  const meta=document.getElementById('tcMeta');
+  // Update theme-color meta
+  const metas={'midnight':'#0a0f1e','ocean':'#001529','forest':'#0a1f0a','sunset':'#1a0a1e','gold':'#1a1200','light':'#f5f7ff','rosegold':'#1e1014','slate':'#0f1117'};
+  if(meta) meta.content=metas[id]||'#0a0f1e';
+  S.theme=id;
+  // Re-render charts with new colors
+  setTimeout(()=>{ if(document.getElementById('view-dashboard').classList.contains('active')) renderDash(); if(document.getElementById('view-analytics').classList.contains('active')) renderAnal(); },100);
+}
+function openThemePicker(){ buildThemeGrid('themeGridModal'); openM('theme'); }
+function buildThemeGrid(containerId){
+  const el=document.getElementById(containerId); if(!el) return;
+  el.innerHTML=THEMES.map(t=>`
+    <div class="theme-chip${S.theme===t.id?' active':''}" onclick="selectTheme('${t.id}')">
+      <div class="theme-chip-preview" style="background:${t.preview}"></div>
+      <div>${t.emoji} ${t.name}</div>
+    </div>`).join('');
+}
+function selectTheme(id){
+  applyTheme(id); save();
+  document.querySelectorAll('.theme-chip').forEach(c=>{
+    c.classList.toggle('active', c.textContent.includes(THEMES.find(t=>t.id===id)?.name||''));
+  });
+  buildThemeGrid('themeGrid');
+  buildThemeGrid('themeGridModal');
+  toast(`پوسته ${THEMES.find(t=>t.id===id)?.name} فعال شد`);
+}
+
+/* ══════════════════════════════════
+   ONBOARDING
+══════════════════════════════════ */
+let obCur=0;
+const OB_TOTAL=6;
+function showOnboarding(){const el=document.getElementById('onboarding');if(el)el.style.display='flex';obCur=0;updObSlide();}
+function updObSlide(){document.getElementById('obSlides').style.transform=`translateX(${obCur*100}%)`;const dots=document.querySelectorAll('.ob-dot');dots.forEach((d,i)=>d.classList.toggle('active',i===obCur));const nb=document.getElementById('obNext'),sk=document.getElementById('obSkip');if(obCur===OB_TOTAL-1){nb.textContent='شروع کنید 🚀';if(sk)sk.style.display='none';}else{nb.textContent='بعدی ←';if(sk)sk.style.display='';}}
+function obNextSlide(){if(obCur<OB_TOTAL-1){obCur++;updObSlide();}else closeOnboarding();}
+function closeOnboarding(){document.getElementById('onboarding').style.display='none';localStorage.setItem('wlt_onboarded','1');}
+
+/* ══════════════════════════════════
+   INIT
+══════════════════════════════════ */
+function init(){
+  load();
+  if(!S.user.rc) S.user.rc=grc();
+  if(!S.goals) S.goals=[];
+  save();
+  applyTheme(S.theme||'midnight');
+  setDate(); setupNums(); regSW(); setupPWA();
+  buildThemeGrid('themeGrid');
+  try{emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');}catch(e){}
+  if(sessionStorage.getItem('wl')==='1'){
+    showApp();
+    if(!localStorage.getItem('wlt_onboarded')) setTimeout(showOnboarding,800);
+  }
+}
+function setDate(){const el=document.getElementById('dd');if(el)el.textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(new Date());}
+function grc(){return Math.random().toString(36).substring(2,8).toUpperCase();}
+function regSW(){if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});}
+
+/* ══════════════════════════════════
+   PWA
+══════════════════════════════════ */
+function setupPWA(){
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dInst=e;if(!localStorage.getItem('pwad'))document.getElementById('pwab').classList.add('show');document.getElementById('sbInst').style.display='block';document.getElementById('settInst').style.display='block';});
+  window.addEventListener('appinstalled',()=>{document.getElementById('pwab').classList.remove('show');document.getElementById('sbInst').style.display='none';document.getElementById('settInst').style.display='none';toast('اپلیکیشن نصب شد 🎉');});
+}
+function instPwa(){if(dInst)dInst.prompt();else toast('در منوی مرورگر گزینه Install را انتخاب کنید','e');}
+function dimPwa(){document.getElementById('pwab').classList.remove('show');localStorage.setItem('pwad','1');}
+
+/* ══════════════════════════════════
+   AUTH
+══════════════════════════════════ */
+function doLogin(){
+  const u=document.getElementById('lU').value.trim(),p=document.getElementById('lP').value;
+  if(u===S.user.username&&p===S.user.password){
+    sessionStorage.setItem('wl','1');
+    const lp=document.getElementById('lp');
+    lp.style.cssText='transition:all .4s;opacity:0;transform:scale(.92)';
+    setTimeout(()=>{lp.style.display='none';showApp();if(!localStorage.getItem('wlt_onboarded'))setTimeout(showOnboarding,600);},380);
+  } else {
+    const err=document.getElementById('lerr');err.style.display='block';setTimeout(()=>err.style.display='none',3000);
+    const card=document.getElementById('panel-login');card.style.animation='none';card.offsetHeight;card.style.animation='shake .4s ease';
+  }
+}
+function doLogout(){sessionStorage.removeItem('wl');location.reload();}
+function tv(id,btn){const i=document.getElementById(id);if(!i)return;i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
+
+function showPanel(id){
+  document.querySelectorAll('.lp-panel').forEach(p=>{p.style.display='none';p.classList.remove('active');});
+  const lp=document.getElementById('panel-login');if(lp)lp.style.display='none';
+  const target=document.getElementById(id);if(!target)return;
+  target.style.display='block';target.classList.add('active');
+  if(id==='panel-rec-choose'){const hint=document.getElementById('emailHint'),card=document.getElementById('methodEmailCard');if(S.user.email){hint.textContent=S.user.email.replace(/(.{2}).+(@.+)/,'$1•••$2');hint.style.color='var(--acc2)';card.style.opacity='1';card.style.pointerEvents='auto';}else{hint.textContent='ایمیل ثبت نشده';hint.style.color='var(--exp)';card.style.opacity='.5';card.style.pointerEvents='none';}}
+  if(id==='panel-rec-otp'){document.getElementById('emailTarget').textContent=S.user.email||'';document.getElementById('otpSendSection').style.display='';document.getElementById('otpVerifySection').style.display='none';for(let i=0;i<6;i++){const b=document.getElementById('ob'+i);if(b){b.value='';b.classList.remove('filled');}}const btn=document.getElementById('sendOtpBtn');if(btn){btn.textContent='📤 ارسال کد OTP';btn.disabled=false;}otpCode='';if(otpTimer)clearInterval(otpTimer);}
+  if(id==='panel-rec-code'){const rc=document.getElementById('rcode');if(rc)rc.value='';}
+}
+function chooseMethod(m){if(m==='email'){if(!S.user.email){toast('در تنظیمات ایمیل خود را ثبت کنید','e');return;}showPanel('panel-rec-otp');}else showPanel('panel-rec-code');}
+function sendOTP(){
+  if(!S.user.email)return toast('ایمیل ثبت نشده','e');
+  otpCode=Math.floor(100000+Math.random()*900000).toString();
+  const btn=document.getElementById('sendOtpBtn');btn.textContent='⏳ در حال ارسال...';btn.disabled=true;
+  const onDone=()=>{document.getElementById('otpSendSection').style.display='none';document.getElementById('otpVerifySection').style.display='';startOtpTimer();document.getElementById('ob0')?.focus();toast('کد ارسال شد ✓');};
+  try{emailjs.send('YOUR_SERVICE_ID','YOUR_TEMPLATE_ID',{to_email:S.user.email,otp_code:otpCode,app_name:'والت'}).then(onDone).catch(()=>{onDone();const vs=document.getElementById('otpVerifySection');const note=document.createElement('div');note.style.cssText='background:rgba(59,130,246,.12);border:1px solid var(--acc);border-radius:10px;padding:10px;text-align:center;margin-bottom:13px;font-size:13px;';note.innerHTML=`حالت دمو — کد: <span style="font-size:21px;font-weight:900;letter-spacing:5px;color:var(--acc2)">${otpCode}</span>`;vs.insertBefore(note,vs.firstChild);setTimeout(()=>note.remove(),60000);});}catch(e){onDone();}
+}
+function startOtpTimer(){let sec=120;const el=document.getElementById('otpTimerDisp');if(otpTimer)clearInterval(otpTimer);otpTimer=setInterval(()=>{sec--;if(sec<=0){clearInterval(otpTimer);if(el)el.innerHTML='<span style="color:var(--exp)">کد منقضی شد</span>';otpCode='';}else if(el)el.textContent=`کد تا ${sec} ثانیه معتبر است`;},1000);}
+function otpNext(el,idx){el.value=el.value.replace(/\D/g,'').slice(-1);if(el.value){el.classList.add('filled');document.getElementById('ob'+(idx+1))?.focus();}else el.classList.remove('filled');}
+function otpBack(e,el,idx){if(e.key==='Backspace'&&!el.value){const prev=document.getElementById('ob'+(idx-1));if(prev){prev.value='';prev.classList.remove('filled');prev.focus();}}}
+function verifyOTP(){const entered=[0,1,2,3,4,5].map(i=>document.getElementById('ob'+i)?.value||'').join('');if(entered.length<6)return toast('کد را کامل وارد کنید','e');if(!otpCode)return toast('کد منقضی شده','e');if(entered===otpCode){clearInterval(otpTimer);showPanel('panel-rec-newpass');}else toast('کد اشتباه است','e');}
+function chkRec(){const c=(document.getElementById('rcode')?.value||'').trim().toUpperCase();if(!c)return toast('کد را وارد کنید','e');if(c===S.user.rc)showPanel('panel-rec-newpass');else toast('کد بازیابی اشتباه است','e');}
+function checkPassStr(p){const el=document.getElementById('passStrength');if(!el||!p){if(el)el.innerHTML='';return;}const strong=p.length>=8&&/[A-Z]/.test(p)&&/[0-9]/.test(p);const medium=p.length>=6;if(strong)el.innerHTML='<span style="color:var(--inc)">✓ رمز قوی</span>';else if(medium)el.innerHTML='<span style="color:var(--gld)">⚠ رمز متوسط</span>';else el.innerHTML='<span style="color:var(--exp)">✕ رمز ضعیف</span>';}
+function doRec(){const np=(document.getElementById('rnp')?.value||''),cf=(document.getElementById('rcp')?.value||'');if(!np||np.length<6)return toast('رمز باید حداقل ۶ کاراکتر باشد','e');if(np!==cf)return toast('رمزها تطابق ندارند','e');S.user.password=np;save();showPanel('panel-rec-success');}
+
+/* ══════════════════════════════════
+   SHOW APP
+══════════════════════════════════ */
+function showApp(){
+  document.getElementById('app').style.display='flex';
+  document.getElementById('sUn').textContent=S.user.username;
+  document.getElementById('sAv').textContent=S.user.username[0].toUpperCase();
+  const rc=document.getElementById('rcShow');if(rc)rc.textContent=S.user.rc;
+  const se=document.getElementById('sEmail');if(se)se.value=S.user.email||'';
+  buildThemeGrid('themeGrid');
+  updBadges();renderDash();
+}
+
+/* ══════════════════════════════════
+   VIEWS
+══════════════════════════════════ */
+function go(v){
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.ni,.bni').forEach(e=>e.classList.remove('active'));
+  const el=document.getElementById('view-'+v);if(el)el.classList.add('active');
+  document.querySelectorAll(`[data-v="${v}"]`).forEach(e=>e.classList.add('active'));
+  if(v==='dashboard')renderDash();
+  if(v==='transactions')renderTx();
+  if(v==='accounts')renderAcc();
+  if(v==='goals')renderGoals();
+  if(v==='budget')renderBudget();
+  if(v==='reminders')renderReminders();
+  if(v==='analytics')renderAnal();
+  if(v==='settings'){buildThemeGrid('themeGrid');}
+  document.getElementById('ct').scrollTo(0,0);
+}
+
+/* ══════════════════════════════════
+   DATA
+══════════════════════════════════ */
+function load(){try{const d=localStorage.getItem('wlp9');if(d){const p=JSON.parse(d);S={...S,...p};}['accounts','transactions','budgets','reminders','goals'].forEach(k=>{if(!S[k])S[k]=[];});if(S.sav===undefined)S.sav=0;if(!S.user)S.user={username:'admin',password:'admin',rc:'',email:''};if(!S.user.email)S.user.email='';}catch(e){}}
+function save(){localStorage.setItem('wlp9',JSON.stringify(S));}
+
+/* ══════════════════════════════════
+   MODALS
+══════════════════════════════════ */
+function openM(id){
+  const full='mo-'+id;
+  if(full==='mo-addTx'){setTT('expense');fillDD();document.getElementById('tAmt').value='';document.getElementById('tTtl').value='';updPrev();}
+  if(full==='mo-addAccount'){['aN','aH','aB','aCard','aAccN','aIban'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});selClr='cg-blue';document.querySelectorAll('#cpick .cpd').forEach(d=>d.classList.remove('sel'));document.querySelector('#cpick .cpd[data-c="cg-blue"]')?.classList.add('sel');setTimeout(updCP,40);}
+  if(full==='mo-addReminder'){
+    document.getElementById('remTtl').value='';
+    document.getElementById('remAmt').value='';
+    // Auto-set today's Jalali date
+    const[ty,tm,td]=JD.todayJalali();
+    jViewY=ty; jViewM=tm;
+    jCalDate={y:ty,m:tm,d:td};
+    const todayISO=JD.toISOFromJalali(ty,tm,td);
+    document.getElementById('remDate').value=todayISO;
+    const mn=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+    document.getElementById('remDateTxt').textContent=`${td} ${mn[tm-1]} ${ty}`;
+    document.getElementById('remDateTxt').style.color='var(--fg)';
+    remClr='#3b82f6';
+    document.querySelectorAll('#remColors .cpd').forEach(d=>d.classList.remove('sel'));
+    document.querySelector('#remColors .cpd[data-rc="#3b82f6"]')?.classList.add('sel');
+    // Close cal if open
+    setTimeout(()=>{const cal=document.getElementById('jcal');if(cal)cal.classList.remove('open');},50);
+  }
+  if(full==='mo-addGoal'){document.getElementById('goalTitle').value='';document.getElementById('goalAmt').value='';document.getElementById('goalCur').value='';selGoalIcon='🏠';document.querySelectorAll('.goal-ico-pick').forEach(e=>e.style.borderColor='transparent');document.querySelector('.goal-ico-pick[data-ico="🏠"]').style.borderColor='var(--acc)';}
+  if(full==='mo-theme'){buildThemeGrid('themeGridModal');}
+  const el=document.getElementById(full);if(el)el.classList.add('open');
+}
+function closeM(id){const el=document.getElementById(id);if(el)el.classList.remove('open');}
+document.querySelectorAll('.mo').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+function sc(el){document.querySelectorAll('#cpick .cpd').forEach(d=>d.classList.remove('sel'));el.classList.add('sel');selClr=el.dataset.c;updCP();}
+function selRC(el){document.querySelectorAll('#remColors .cpd').forEach(d=>d.classList.remove('sel'));el.classList.add('sel');remClr=el.dataset.rc;}
+function selGoalIco(el){document.querySelectorAll('.goal-ico-pick').forEach(e=>e.style.borderColor='transparent');el.style.borderColor='var(--acc)';selGoalIcon=el.dataset.ico;}
+
+/* ══════════════════════════════════
+   TYPE TOGGLE
+══════════════════════════════════ */
+function setTT(t){
+  curTT=t;
+  document.querySelectorAll('.tt').forEach(b=>{b.classList.remove('active');const ico=b.querySelector('.tt-ico');if(ico)ico.style.transform='scale(1)';});
+  const active=document.querySelector(`.tt[data-t="${t}"]`);
+  if(active){active.classList.add('active');const ico=active.querySelector('.tt-ico');if(ico)ico.style.transform='scale(1.28) translateY(-2px)';}
+  const isTrans=t==='transfer',isSav=t==='savings_deposit'||t==='savings_withdraw';
+  document.getElementById('tCatW').style.display=(isTrans||isSav)?'none':'';
+  document.getElementById('tToW').style.display=isTrans?'':'none';
+  document.getElementById('tAccL').textContent=isTrans?'از حساب':'حساب';
+  updPrev();
+}
+function updPrev(){const amt=raw(document.getElementById('tAmt')?.value||'0');const pill=document.getElementById('amtPill'),val=document.getElementById('amtV');if(!pill||!val)return;const cols={expense:'var(--exp)',income:'var(--inc)',transfer:'var(--acc)',savings_deposit:'var(--sav)',savings_withdraw:'#0ea5e9'};const col=cols[curTT]||'var(--mu)';if(amt>0){val.style.color=col;val.innerHTML=`${f(amt)} <span style="font-size:14px;font-weight:400;color:var(--mu)">تومان</span>`;pill.style.borderColor=col;}else{val.style.color='var(--mu)';val.textContent='مبلغ تراکنش';pill.style.borderColor='';}}
+function fillDD(){const opts=S.accounts.length===0?'<option>ابتدا حساب اضافه کنید</option>':S.accounts.map(a=>`<option value="${a.id}">${a.name} (${f(a.balance)})</option>`).join('');['tAcc','tToA','savAcc','qAccS'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=opts;});}
+
+/* ══════════════════════════════════
+   SUBMIT TX
+══════════════════════════════════ */
+function subTx(){
+  const amt=raw(document.getElementById('tAmt').value),ttl=document.getElementById('tTtl').value.trim(),cat=document.getElementById('tCat').value,aId=parseInt(document.getElementById('tAcc').value),acc=S.accounts.find(a=>a.id===aId);
+  if(!amt||amt<=0)return toast('مبلغ نامعتبر است','e');
+  if(!acc)return toast('حساب انتخاب نشده','e');
+  const tx={id:Date.now(),type:curTT,amount:amt,date:new Date().toISOString(),accountId:aId,category:cat};
+  if(curTT==='expense'){if(acc.balance<amt)return toast(`موجودی ${acc.name} کافی نیست`,'e');acc.balance-=amt;tx.title=ttl||cat;}
+  else if(curTT==='income'){acc.balance+=amt;tx.title=ttl||'درآمد';tx.category=cat;}
+  else if(curTT==='transfer'){const tId=parseInt(document.getElementById('tToA').value);if(aId===tId)return toast('مبدا و مقصد یکسان','e');const tA=S.accounts.find(a=>a.id===tId);if(!tA)return toast('حساب مقصد نامعتبر','e');if(acc.balance<amt)return toast('موجودی کافی نیست','e');acc.balance-=amt;tA.balance+=amt;tx.title=`انتقال → ${tA.name}`;tx.toAccountId=tId;tx.category='انتقال';}
+  else if(curTT==='savings_deposit'){if(acc.balance<amt)return toast('موجودی کافی نیست','e');acc.balance-=amt;S.sav+=amt;tx.title=ttl||'واریز پس‌انداز';tx.category='پس‌انداز';}
+  else if(curTT==='savings_withdraw'){if(S.sav<amt)return toast('موجودی پس‌انداز کافی نیست','e');acc.balance+=amt;S.sav-=amt;tx.title=ttl||'برداشت پس‌انداز';tx.category='پس‌انداز';}
+  S.transactions.push(tx);save();closeM('mo-addTx');renderDash();toast('تراکنش ثبت شد ✓');
+}
+function delTx(id){const t=S.transactions.find(x=>x.id===id);if(!t)return;const acc=S.accounts.find(a=>a.id===t.accountId);if(t.type==='expense'&&acc)acc.balance+=t.amount;else if(t.type==='income'&&acc)acc.balance-=t.amount;else if(t.type==='transfer'){if(acc)acc.balance+=t.amount;const ta=S.accounts.find(a=>a.id===t.toAccountId);if(ta)ta.balance-=t.amount;}else if(t.type==='savings_deposit'){if(acc)acc.balance+=t.amount;S.sav=Math.max(0,S.sav-t.amount);}else if(t.type==='savings_withdraw'){if(acc)acc.balance-=t.amount;S.sav+=t.amount;}S.transactions=S.transactions.filter(x=>x.id!==id);save();renderDash();if(document.getElementById('view-transactions').classList.contains('active'))renderTx();toast('حذف شد');}
+function setF(el,fi){txF=fi;document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderTx();}
+
+/* ══════════════════════════════════
+   ACCOUNTS
+══════════════════════════════════ */
+function subAcc(){const nm=document.getElementById('aN').value.trim();if(!nm)return toast('نام حساب را وارد کنید','e');S.accounts.push({id:Date.now(),name:nm,holder:document.getElementById('aH').value.trim()||nm,balance:raw(document.getElementById('aB').value)||0,color:selClr,cardNumber:document.getElementById('aCard').value.trim(),accountNumber:document.getElementById('aAccN').value.trim(),iban:document.getElementById('aIban').value.trim()});save();closeM('mo-addAccount');renderDash();renderAcc();toast('حساب اضافه شد ✓');}
+function delAcc(id){if(S.accounts.length<=1)return toast('حداقل یک حساب لازم است','e');if(!confirm('این حساب حذف شود؟'))return;S.accounts=S.accounts.filter(a=>a.id!==id);save();renderAcc();renderDash();}
+function edBal(id){const acc=S.accounts.find(a=>a.id===id);if(!acc)return;const v=prompt(`موجودی جدید برای "${acc.name}":`,acc.balance);if(v===null)return;acc.balance=raw(v)||parseInt(v)||0;save();renderAcc();renderDash();toast('ویرایش شد ✓');}
+function qAdd(){const aId=parseInt(document.getElementById('qAccS').value),amt=raw(document.getElementById('qAmt').value),acc=S.accounts.find(a=>a.id===aId);if(!amt||amt<=0||!acc)return toast('خطا','e');acc.balance+=amt;S.transactions.push({id:Date.now(),type:'income',title:'افزودن دستی',amount:amt,date:new Date().toISOString(),accountId:aId,category:'سایر'});save();renderAcc();renderDash();document.getElementById('qAmt').value='';toast(`${f(amt)} تومان افزوده شد ✓`);}
+function qSub(){const aId=parseInt(document.getElementById('qAccS').value),amt=raw(document.getElementById('qAmt').value),acc=S.accounts.find(a=>a.id===aId);if(!amt||amt<=0||!acc)return toast('خطا','e');if(acc.balance<amt)return toast('موجودی کافی نیست','e');acc.balance-=amt;S.transactions.push({id:Date.now(),type:'expense',title:'کسر دستی',amount:amt,date:new Date().toISOString(),accountId:aId,category:'سایر'});save();renderAcc();renderDash();document.getElementById('qAmt').value='';toast(`${f(amt)} تومان کسر شد`);}
+function savOp(op){const amt=raw(document.getElementById('savA').value),aId=parseInt(document.getElementById('savAcc').value),acc=S.accounts.find(a=>a.id===aId);if(!amt||amt<=0||!acc)return toast('خطا','e');if(op==='deposit'){if(acc.balance<amt)return toast('موجودی کافی نیست','e');acc.balance-=amt;S.sav+=amt;S.transactions.push({id:Date.now(),type:'savings_deposit',title:'واریز پس‌انداز',amount:amt,date:new Date().toISOString(),accountId:aId,category:'پس‌انداز'});toast('واریز شد ✓');}else{if(S.sav<amt)return toast('موجودی پس‌انداز کافی نیست','e');acc.balance+=amt;S.sav-=amt;S.transactions.push({id:Date.now(),type:'savings_withdraw',title:'برداشت پس‌انداز',amount:amt,date:new Date().toISOString(),accountId:aId,category:'پس‌انداز'});toast('برداشت شد ✓');}save();renderAcc();renderDash();document.getElementById('savA').value='';}
+
+/* ══════════════════════════════════
+   GOALS
+══════════════════════════════════ */
+function subGoal(){const title=document.getElementById('goalTitle').value.trim(),amt=raw(document.getElementById('goalAmt').value),cur=raw(document.getElementById('goalCur').value)||0;if(!title||!amt)return toast('عنوان و مبلغ هدف را وارد کنید','e');S.goals.push({id:Date.now(),title,target:amt,current:cur,icon:selGoalIcon});save();closeM('mo-addGoal');renderGoals();toast('هدف اضافه شد ✓');}
+function delGoal(id){S.goals=S.goals.filter(g=>g.id!==id);save();renderGoals();}
+function updGoal(id){const g=S.goals.find(x=>x.id===id);if(!g)return;const v=prompt(`موجودی فعلی برای "${g.title}":`,g.current);if(v===null)return;g.current=raw(v)||parseInt(v)||0;save();renderGoals();toast('بروزرسانی شد ✓');}
+
+/* ══════════════════════════════════
+   BUDGET
+══════════════════════════════════ */
+function subBudget(){const cat=document.getElementById('bCat').value,amt=raw(document.getElementById('bAmt').value);if(!amt||amt<=0)return toast('مبلغ بودجه را وارد کنید','e');const ex=S.budgets.find(b=>b.cat===cat);if(ex)ex.amount=amt;else S.budgets.push({id:Date.now(),cat,amount:amt});save();closeM('mo-addBudget');renderBudget();toast('بودجه ذخیره شد ✓');}
+function delBudget(id){S.budgets=S.budgets.filter(b=>b.id!==id);save();renderBudget();}
+
+/* ══════════════════════════════════
+   REMINDERS
+══════════════════════════════════ */
+function subReminder(){
+  const title=document.getElementById('remTtl').value.trim(),date=document.getElementById('remDate').value;
+  if(!title)return toast('عنوان را وارد کنید','e');
+  if(!date)return toast('تاریخ سررسید را انتخاب کنید','e');
+  S.reminders.push({id:Date.now(),title,date,amount:raw(document.getElementById('remAmt').value),color:remClr,done:false});
+  save();closeM('mo-addReminder');renderReminders();updBadges();toast('یادآور افزوده شد ✓');
+}
+function doneRem(id){const r=S.reminders.find(x=>x.id===id);if(r)r.done=!r.done;save();renderReminders();updBadges();}
+function delRem(id){S.reminders=S.reminders.filter(x=>x.id!==id);save();renderReminders();updBadges();}
+function updBadges(){const due=S.reminders.filter(r=>!r.done&&new Date(r.date)<=new Date(Date.now()+3*24*60*60*1000)).length;['niBd','bnBd'].forEach(id=>{const el=document.getElementById(id);if(el){el.style.display=due>0?'block':'none';el.textContent=due;}});}
+
+/* ══════════════════════════════════
+   SETTINGS
+══════════════════════════════════ */
+function saveSet(){const u=document.getElementById('sU').value.trim(),em=document.getElementById('sEmail').value.trim(),cp=document.getElementById('sCP').value,np=document.getElementById('sNP').value,cf=document.getElementById('sCF').value;if(cp&&cp!==S.user.password)return toast('رمز فعلی اشتباه است','e');if(np&&np!==cf)return toast('رمز جدید تطابق ندارد','e');if(u){S.user.username=u;document.getElementById('sUn').textContent=u;document.getElementById('sAv').textContent=u[0].toUpperCase();}if(em)S.user.email=em;if(np)S.user.password=np;save();toast('تنظیمات ذخیره شد ✓');}
+function expData(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`wallet-backup-${Date.now()}.json`;a.click();toast('خروجی دانلود شد');}
+function impData(ev){const fi=ev.target.files[0];if(!fi)return;const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);S={...S,...d};['accounts','transactions','budgets','reminders','goals'].forEach(k=>{if(!S[k])S[k]=[];});save();renderDash();updBadges();applyTheme(S.theme||'midnight');toast('داده‌ها وارد شد ✓');}catch{toast('خطا در فایل','e');}};r.readAsText(fi);}
+function clearAll(){if(!confirm('همه داده‌ها پاک شود؟'))return;S={user:S.user,accounts:[],transactions:[],sav:0,theme:S.theme,budgets:[],reminders:[],goals:[]};save();renderDash();updBadges();toast('پاک شد');}
+
+/* ══════════════════════════════════
+   RENDER DASHBOARD
+══════════════════════════════════ */
+function renderDash(){
+  const now=new Date(),mo=now.getMonth(),yr=now.getFullYear();
+  const mTx=S.transactions.filter(t=>{const d=new Date(t.date);return d.getMonth()===mo&&d.getFullYear()===yr;});
+  const inc=mTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const exp=mTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const tot=S.accounts.reduce((s,a)=>s+a.balance,0);
+  document.getElementById('sInc').textContent=f(inc);
+  document.getElementById('sExp').textContent=f(exp);
+  document.getElementById('sSav').textContent=f(S.sav);
+  document.getElementById('sTot').textContent=f(tot+S.sav);
+
+  const di=document.getElementById('dashInsights');di.innerHTML='';
+  const insights=genInsights(inc,exp,mTx);
+  if(insights.length)di.innerHTML=`<div class="sh"><div class="st">💡 بینش‌های مالی</div></div>`+insights.map(i=>`<div class="insight-card"><div class="insight-ico">${i.ico}</div><div><div class="insight-title">${i.title}</div><div class="insight-body">${i.body}</div></div></div>`).join('');
+
+  const cgMap={
+    'cg-blue':'linear-gradient(135deg,#0f2877,#1565c0)',
+    'cg-green':'linear-gradient(135deg,#0a3d1f,#388e3c)',
+    'cg-red':'linear-gradient(135deg,#5c0000,#c62828)',
+    'cg-purple':'linear-gradient(135deg,#2e0558,#7c3aed)',
+    'cg-gold':'linear-gradient(135deg,#78350f,#f59e0b)',
+    'cg-cyan':'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
+    'cg-pink':'linear-gradient(135deg,#500724,#ec4899)',
+    'cg-slate':'linear-gradient(135deg,#0f172a,#475569)',
+    'cg-titanium':'linear-gradient(135deg,#1c1c1e,#48484a)',
+    'cg-emerald':'linear-gradient(135deg,#064e3b,#059669)',
+  };
+  const dbc=document.getElementById('dashABC');
+  dbc.innerHTML=S.accounts.length===0?`<div style="grid-column:1/-1;text-align:center;padding:16px;color:var(--mu);font-size:13px">💳 <span style="color:var(--acc2);cursor:pointer" onclick="openM('addAccount')">افزودن اولین حساب ←</span></div>`:S.accounts.map(a=>`<div class="abc" onclick="go('accounts')" style="background:${cgMap[a.color]||cgMap['cg-blue']}"><div class="abc-sh"></div><div class="abc-c1"></div><div class="abc-in"><div class="abc-nm">💳 ${escH(a.name)}</div><div class="abc-am">${f(a.balance)}<span class="abc-ut">تومان</span></div>${a.cardNumber?`<div class="abc-l4">•••• ${a.cardNumber.replace(/-/g,'').slice(-4)}</div>`:''}</div></div>`).join('');
+
+  const drm=document.getElementById('dashRem');
+  const up=S.reminders.filter(r=>!r.done&&new Date(r.date)<=new Date(Date.now()+7*24*60*60*1000)).slice(0,3);
+  drm.innerHTML=up.length>0?`<div class="card cp" style="border-color:rgba(245,158,11,.3)"><div class="sh"><div class="st">🔔 یادآوری‌های هفته</div><span class="sl" onclick="go('reminders')">همه</span></div>${up.map(r=>{const[jy,jm,jd]=JD.fromISO(r.date);const mn=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];return`<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid var(--brd)"><span style="width:9px;height:9px;border-radius:50%;background:${r.color};flex-shrink:0;display:inline-block"></span><span style="font-size:13px;font-weight:600;flex:1;color:var(--fg)">${escH(r.title)}</span>${r.amount?`<span style="font-size:11px;color:var(--mu)">${f(r.amount)}</span>`:''}<span style="font-size:11px;color:var(--gld2);font-weight:700">${jy>0?`${jd} ${mn[jm-1]}`:'—'}</span></div>`;}).join('')}</div>`:'';
+
+  const dt=document.getElementById('dTx');
+  const rec=[...S.transactions].reverse().slice(0,6);
+  dt.innerHTML=rec.length===0?'<div class="empty" style="padding:16px"><div class="ei">📋</div><div class="et">تراکنشی ثبت نشده</div></div>':rec.map(t=>txHTML(t)).join('');
+  renderCharts(inc,exp);
+}
+
+function genInsights(inc,exp,mTx){
+  const result=[];
+  if(inc===0&&exp===0)return result;
+  const bal=inc-exp,rate=inc>0?Math.round(bal/inc*100):0;
+  if(rate<0)result.push({ico:'⚠️',title:'هزینه از درآمد بیشتر است',body:`این ماه ${f(Math.abs(bal))} تومان کسری دارید.`});
+  else if(rate>=20)result.push({ico:'🎉',title:`نرخ پس‌انداز ${rate}٪`,body:'عالی است! شما بیشتر از ۲۰٪ درآمد خود را پس‌انداز می‌کنید.'});
+  const cats={};
+  mTx.filter(t=>t.type==='expense').forEach(t=>{cats[t.category]=(cats[t.category]||0)+t.amount;});
+  const topCat=Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+  if(topCat&&inc>0&&topCat[1]/inc>0.3)result.push({ico:'📊',title:`هزینه ${topCat[0]} بالاست`,body:`${Math.round(topCat[1]/inc*100)}٪ درآمد شما صرف ${topCat[0]} شده است.`});
+  const overBudgets=S.budgets.filter(b=>{const used=mTx.filter(t=>t.type==='expense'&&t.category===b.cat).reduce((s,t)=>s+t.amount,0);return used>b.amount;});
+  if(overBudgets.length>0)result.push({ico:'🚨',title:`${overBudgets.length} دسته از بودجه عبور کرده`,body:overBudgets.map(b=>b.cat).join('، ')+' از سقف بودجه گذشته‌اند.'});
+  return result.slice(0,2);
+}
+
+/* ══════════════════════════════════
+   RENDER TX
+══════════════════════════════════ */
+function renderTx(){
+  let txs=[...S.transactions].reverse();
+  if(txF!=='all')txs=txs.filter(t=>t.type===txF);
+  const q=(document.getElementById('txSrch')?.value||'').trim();
+  if(q)txs=txs.filter(t=>(t.title||'').includes(q)||(t.category||'').includes(q));
+  document.getElementById('txCnt').textContent=`${txs.length} تراکنش`;
+  const tb=document.getElementById('txTbl'),em=document.getElementById('txEmp');
+  if(!txs.length){tb.innerHTML='';em.style.display='';return;}
+  em.style.display='none';
+  tb.innerHTML=txs.map(t=>{const col=tc(t.type),sign=t.type==='income'?'+':t.type==='expense'?'-':'';const an=t.accountId?(S.accounts.find(a=>a.id===t.accountId)?.name||'-'):'-';const[jy,jm,jd]=JD.fromISO(t.date);const mn=['فر','ار','خر','تی','مر','شه','مه','آب','آذ','دی','به','اس'];const jdStr=jy>0?`${jd} ${mn[jm-1]}`:'—';return`<tr><td style="font-weight:600;color:var(--fg)">${escH(t.title||'-')}</td><td style="color:var(--mu);font-size:12px">${escH(an)}</td><td><span class="cb" style="background:${col}22;color:${col}">${escH(t.category||'-')}</span></td><td style="color:var(--mu);font-size:11px;white-space:nowrap">${jdStr}</td><td style="font-weight:800;color:${col};white-space:nowrap">${sign}${f(t.amount)}</td><td><button style="border:none;background:none;cursor:pointer;color:var(--mu);font-size:13px;padding:3px" onclick="delTx(${t.id})">🗑️</button></td></tr>`;}).join('');
+}
+
+/* ══════════════════════════════════
+   RENDER ACCOUNTS
+══════════════════════════════════ */
+function renderAcc(){
+  const g=document.getElementById('accGrd');
+  g.innerHTML=S.accounts.length===0?'<div class="empty" style="padding:44px;grid-column:1/-1"><div class="ei">💳</div><div class="et">حسابی اضافه نشده</div></div>':S.accounts.map(a=>`<div class="card cp" style="padding:0">${mkCard(a)}<div style="padding:14px 16px"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--fg)">${escH(a.name)}</div>${a.cardNumber?`<div class="crow" onclick="cpv('${a.cardNumber.replace(/-/g,'')}',this)"><span class="crow-l">شماره کارت</span><span class="crow-v">${fmtD2(a.cardNumber)}</span><span class="crow-b">📋</span></div>`:''} ${a.accountNumber?`<div class="crow" onclick="cpv('${escH(a.accountNumber)}',this)"><span class="crow-l">شماره حساب</span><span class="crow-v">${escH(a.accountNumber)}</span><span class="crow-b">📋</span></div>`:''} ${a.iban?`<div class="crow" onclick="cpv('${escH(a.iban)}',this)"><span class="crow-l">شبا/IBAN</span><span class="crow-v">${escH(a.iban)}</span><span class="crow-b">📋</span></div>`:''}<div style="display:flex;gap:7px;margin-top:12px"><button class="btn bg bsm" style="flex:1;justify-content:center" onclick="edBal(${a.id})">✏️ ویرایش موجودی</button><button class="btn bsm" style="background:rgba(244,63,94,.1);color:var(--exp);border:1px solid rgba(244,63,94,.2)" onclick="delAcc(${a.id})">🗑️</button></div></div></div>`).join('');
+  document.getElementById('savD').textContent=f(S.sav);
+  fillDD();
+}
+
+/* ══════════════════════════════════
+   RENDER GOALS
+══════════════════════════════════ */
+function renderGoals(){
+  const gl=document.getElementById('goalsList');
+  if(!S.goals.length){gl.innerHTML='<div class="empty"><div class="ei">🏆</div><div class="et">هدف مالی‌ای تنظیم نشده</div></div>';return;}
+  const pal=['#3b82f6','#10b981','#8b5cf6','#f59e0b','#f43f5e','#06b6d4'];
+  gl.innerHTML=S.goals.map((g,i)=>{
+    const pct=Math.min(100,g.target>0?Math.round(g.current/g.target*100):0);
+    const col=pal[i%6],rem=Math.max(0,g.target-g.current);
+    return`<div class="goal-card"><div class="goal-header"><div class="goal-ico" style="background:${col}22">${g.icon}</div><div style="flex:1"><div class="goal-title">${escH(g.title)}</div><div class="goal-meta">${f(g.current)} از ${f(g.target)} تومان — باقیمانده: ${f(rem)}</div></div><div class="goal-pct">${pct}٪</div></div><div class="pb"><div class="pbf" style="width:${pct}%;background:${col}"></div></div><div style="display:flex;gap:7px;margin-top:12px"><button class="btn bg bsm" style="flex:1;justify-content:center" onclick="updGoal(${g.id})">✏️ بروزرسانی</button><button class="btn bsm" style="background:rgba(244,63,94,.1);color:var(--exp);border:1px solid rgba(244,63,94,.2)" onclick="delGoal(${g.id})">🗑️</button></div></div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════
+   RENDER BUDGET
+══════════════════════════════════ */
+function renderBudget(){
+  const now=new Date(),mo=now.getMonth(),yr=now.getFullYear();
+  const mExp=S.transactions.filter(t=>{const d=new Date(t.date);return t.type==='expense'&&d.getMonth()===mo&&d.getFullYear()===yr;});
+  const pal=['#f43f5e','#f59e0b','#10b981','#3b82f6','#8b5cf6','#06b6d4','#ec4899','#84cc16'];
+  let bT=0,bU=0;
+  S.budgets.forEach(b=>{bT+=b.amount;bU+=mExp.filter(t=>t.category===b.cat).reduce((s,t)=>s+t.amount,0);});
+  document.getElementById('bTot').textContent=f(bT);
+  document.getElementById('bUsed').textContent=f(bU);
+  document.getElementById('bLeft').textContent=f(Math.max(0,bT-bU));
+  const bl=document.getElementById('budgetList');
+  if(!S.budgets.length){bl.innerHTML='<div class="empty"><div class="ei">🎯</div><div class="et">هنوز بودجه‌ای تنظیم نشده</div></div>';return;}
+  bl.innerHTML=S.budgets.map((b,i)=>{const used=mExp.filter(t=>t.category===b.cat).reduce((s,t)=>s+t.amount,0);const pct=Math.min(100,b.amount>0?Math.round(used/b.amount*100):0);const over=used>b.amount,col=pal[i%8];return`<div style="display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--brd)"><div style="width:38px;height:38px;border-radius:10px;background:${col}22;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">${catIco(b.cat)}</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:3px;color:var(--fg)">${b.cat}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--mu);margin-bottom:5px"><span>${f(used)} مصرف</span><span>${f(b.amount)} بودجه</span></div><div class="pb"><div class="pbf" style="width:${pct}%;background:${over?'var(--exp)':col}"></div></div>${over?`<div style="font-size:11px;color:var(--exp);font-weight:700;margin-top:3px">⚠️ ${f(used-b.amount)} تومان اضافه</div>`:`<div style="font-size:11px;color:var(--mu);margin-top:3px">${pct}٪ مصرف</div>`}</div><button onclick="delBudget(${b.id})" style="border:none;background:none;cursor:pointer;color:var(--mu);font-size:14px">🗑️</button></div>`;}).join('');
+}
+
+/* ══════════════════════════════════
+   RENDER REMINDERS
+══════════════════════════════════ */
+function renderReminders(){
+  const rl=document.getElementById('remList');
+  if(!S.reminders.length){rl.innerHTML='<div class="empty"><div class="ei">🔔</div><div class="et">یادآوری‌ای ثبت نشده</div></div>';return;}
+  const mn=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+  const sorted=[...S.reminders].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  rl.innerHTML=sorted.map(r=>{
+    const d=new Date(r.date),diff=Math.ceil((d-new Date())/(1000*60*60*24));
+    const[jy,jm,jd]=JD.fromISO(r.date);
+    const jStr=jy>0?`${jd} ${mn[jm-1]} ${jy}`:'—';
+    let badge='';
+    if(!r.done){if(diff<0)badge=`<span style="background:rgba(244,63,94,.15);color:var(--exp);font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px">${Math.abs(diff)} روز گذشته</span>`;else if(diff===0)badge='<span style="background:rgba(244,63,94,.15);color:var(--exp);font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px">امروز!</span>';else if(diff<=3)badge=`<span style="background:rgba(245,158,11,.15);color:var(--gld2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px">${diff} روز دیگر</span>`;}
+    return`<div class="rem-item" style="opacity:${r.done?.5:1};border-color:${r.done?'var(--brd)':r.color+'44'}"><div class="rem-dot" style="background:${r.color}"></div><div class="rem-info"><div class="rem-title" style="${r.done?'text-decoration:line-through;color:var(--mu)':''}">${escH(r.title)}</div><div class="rem-date">${jStr}${r.amount?` · ${f(r.amount)} تومان`:''} ${badge}</div></div><button onclick="doneRem(${r.id})" style="border:none;background:none;cursor:pointer;font-size:17px;padding:4px">${r.done?'↩️':'✅'}</button><button onclick="delRem(${r.id})" style="border:none;background:none;cursor:pointer;color:var(--mu);font-size:15px;padding:4px">🗑️</button></div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════
+   RENDER ANALYTICS
+══════════════════════════════════ */
+function renderAnal(){
+  const cats={};
+  S.transactions.filter(t=>t.type==='expense').forEach(t=>{cats[t.category||'سایر']=(cats[t.category||'سایر']||0)+t.amount;});
+  const tot=Object.values(cats).reduce((s,v)=>s+v,0)||1;
+  const pal=['#f43f5e','#f59e0b','#10b981','#3b82f6','#8b5cf6','#06b6d4','#ec4899','#84cc16'];
+  document.getElementById('catS').innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v],i)=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span style="font-weight:600;color:var(--fg)">${escH(k)}</span><span style="color:${pal[i%8]};font-weight:700">${f(v)}</span></div><div class="pb"><div class="pbf" style="width:${v/tot*100}%;background:${pal[i%8]}"></div></div></div>`).join('')||'<div class="empty"><div class="ei">📊</div><div class="et">داده‌ای موجود نیست</div></div>';
+  renderBC();renderPC(cats,pal);renderNC();
+}
+
+/* ══════════════════════════════════
+   CHARTS
+══════════════════════════════════ */
+function dch(n){if(CH[n]){try{CH[n].destroy();}catch(e){}delete CH[n];}}
+function lc(){
+  const th=S.theme||'midnight';
+  if(th==='light')return '#64748b';
+  return '#6b7ea8';
+}
+function gc(){
+  const th=S.theme||'midnight';
+  if(th==='light')return 'rgba(0,0,0,.06)';
+  return 'rgba(255,255,255,.04)';
+}
+
+function renderCharts(inc,exp){
+  dch('donut');const el=document.getElementById('donutC');if(!el)return;
+  const fd=[{v:inc,l:'درآمد',c:'#10b981'},{v:exp,l:'هزینه',c:'#f43f5e'},{v:S.sav,l:'پس‌انداز',c:'#8b5cf6'}].filter(x=>x.v>0);
+  if(fd.length)CH.donut=new Chart(el,{type:'doughnut',data:{labels:fd.map(x=>x.l),datasets:[{data:fd.map(x=>x.v),backgroundColor:fd.map(x=>x.c),borderWidth:0,hoverOffset:6}]},options:{cutout:'68%',plugins:{legend:{position:'bottom',labels:{color:lc(),font:{family:'Vazirmatn',size:10},padding:11}}},animation:{duration:700}}});
+  dch('trend');const te=document.getElementById('trendC');if(!te)return;
+  const days=[],iD=[],eD=[];
+  for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const[jy,jm,jd]=JD.toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());days.push(jd+'');const dt=S.transactions.filter(t=>new Date(t.date).toDateString()===d.toDateString());iD.push(dt.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0));eD.push(dt.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0));}
+  CH.trend=new Chart(te,{type:'line',data:{labels:days,datasets:[{label:'درآمد',data:iD,borderColor:'#10b981',backgroundColor:'rgba(16,185,129,.1)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#10b981'},{label:'هزینه',data:eD,borderColor:'#f43f5e',backgroundColor:'rgba(244,63,94,.1)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#f43f5e'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:lc(),font:{family:'Vazirmatn',size:10}}}},scales:{x:{ticks:{color:lc(),font:{family:'Vazirmatn',size:9}},grid:{color:gc()}},y:{ticks:{color:lc(),font:{family:'Vazirmatn',size:9},callback:v=>cf(v)},grid:{color:gc()}}}}});
+}
+function renderBC(){dch('bar');const el=document.getElementById('barC');if(!el)return;const ms=[],iD=[],eD=[];for(let i=5;i>=0;i--){const d=new Date();d.setMonth(d.getMonth()-i);const[jy,jm]=JD.toJalali(d.getFullYear(),d.getMonth()+1,1);const mn=['فر','ار','خر','تی','مر','شه','مه','آب','آذ','دی','به','اس'];ms.push(mn[jm-1]);const mt=S.transactions.filter(t=>{const td=new Date(t.date);return td.getMonth()===d.getMonth()&&td.getFullYear()===d.getFullYear();});iD.push(mt.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0));eD.push(mt.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0));}CH.bar=new Chart(el,{type:'bar',data:{labels:ms,datasets:[{label:'درآمد',data:iD,backgroundColor:'rgba(16,185,129,.7)',borderRadius:6},{label:'هزینه',data:eD,backgroundColor:'rgba(244,63,94,.7)',borderRadius:6}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:lc(),font:{family:'Vazirmatn'}}}},scales:{x:{ticks:{color:lc(),font:{family:'Vazirmatn'}},grid:{display:false}},y:{ticks:{color:lc(),font:{family:'Vazirmatn'},callback:v=>cf(v)},grid:{color:gc()}}}}});}
+function renderPC(cats,pal){dch('pie');const el=document.getElementById('pieC');if(!el)return;const ent=Object.entries(cats).sort((a,b)=>b[1]-a[1]);if(!ent.length)return;CH.pie=new Chart(el,{type:'pie',data:{labels:ent.map(e=>e[0]),datasets:[{data:ent.map(e=>e[1]),backgroundColor:pal,borderWidth:0,hoverOffset:7}]},options:{plugins:{legend:{position:'bottom',labels:{color:lc(),font:{family:'Vazirmatn',size:10},padding:11}}}}});}
+function renderNC(){dch('net');const el=document.getElementById('netC');if(!el)return;const labels=[],data=[];const curTot=S.accounts.reduce((s,a)=>s+a.balance,0)+S.sav;let run=curTot;for(let i=5;i>=0;i--){const d=new Date();d.setMonth(d.getMonth()-i);const[jy,jm]=JD.toJalali(d.getFullYear(),d.getMonth()+1,1);const mn=['فر','ار','خر','تی','مر','شه','مه','آب','آذ','دی','به','اس'];const mt=S.transactions.filter(t=>{const td=new Date(t.date);return td.getMonth()===d.getMonth()&&td.getFullYear()===d.getFullYear();});const net=mt.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0)-mt.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);labels.push(mn[jm-1]);if(i===0)data.unshift(curTot);else{run-=net;data.unshift(run);}}CH.net=new Chart(el,{type:'line',data:{labels,datasets:[{label:'دارایی خالص',data,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,.12)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#8b5cf6',borderWidth:2}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:lc(),font:{family:'Vazirmatn',size:10}}}},scales:{x:{ticks:{color:lc(),font:{family:'Vazirmatn',size:9}},grid:{color:gc()}},y:{ticks:{color:lc(),font:{family:'Vazirmatn',size:9},callback:v=>cf(v)},grid:{color:gc()}}}}});}
+
+/* ══════════════════════════════════
+   AI ADVISOR
+══════════════════════════════════ */
+async function sendAI(){const inp=document.getElementById('aiInp');const q=inp.value.trim();if(!q)return;inp.value='';await askAI(q);}
+async function askAI(question){
+  const chat=document.getElementById('aiChat');
+  const uDiv=document.createElement('div');uDiv.className='ai-msg user';uDiv.textContent=question;chat.appendChild(uDiv);
+  const tDiv=document.createElement('div');tDiv.className='ai-msg bot';tDiv.textContent='⏳ در حال تحلیل...';chat.appendChild(tDiv);chat.scrollTop=chat.scrollHeight;
+  const now=new Date(),mo=now.getMonth(),yr=now.getFullYear();
+  const mTx=S.transactions.filter(t=>{const d=new Date(t.date);return d.getMonth()===mo&&d.getFullYear()===yr;});
+  const inc=mTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const exp=mTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const total=S.accounts.reduce((s,a)=>s+a.balance,0);
+  const cats={};mTx.filter(t=>t.type==='expense').forEach(t=>{cats[t.category]=(cats[t.category]||0)+t.amount;});
+  const topCats=Object.entries(cats).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([k,v])=>`${k}:${f(v)}`).join('،');
+  const ctx=`اطلاعات مالی:کل دارایی:${f(total+S.sav)}تومان|درآمد ماه:${f(inc)}|هزینه ماه:${f(exp)}|پس‌انداز:${f(S.sav)}|تراز:${f(inc-exp)}|بیشترین هزینه:${topCats||'ندارد'}|تعداد حساب:${S.accounts.length}|اهداف:${S.goals.length}|بودجه‌ها:${S.budgets.length}`;
+  aiHistory.push({role:'user',content:question});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:`تو مشاور مالی حرفه‌ای هستی که فارسی پاسخ می‌دهی. داده‌های واقعی کاربر:\n${ctx}\nپاسخ دقیق،کاربردی و عددی بده. از ایموجی استفاده کن.`,messages:aiHistory.slice(-10)})});
+    const data=await res.json();
+    const reply=data.content?.find(c=>c.type==='text')?.text||genFallback(question,inc,exp,total);
+    aiHistory.push({role:'assistant',content:reply});
+    tDiv.textContent=reply;
+  }catch(e){const fb=genFallback(question,inc,exp,total);aiHistory.push({role:'assistant',content:fb});tDiv.textContent=fb;}
+  chat.scrollTop=chat.scrollHeight;
+}
+function genFallback(q,inc,exp,total){
+  const bal=inc-exp,rate=inc>0?Math.round(bal/inc*100):0;
+  if(q.includes('وضعیت')||q.includes('مالی'))return`📊 وضعیت مالی این ماه:\n\n💚 درآمد: ${f(inc)} تومان\n🔴 هزینه: ${f(exp)} تومان\n💰 تراز: ${f(bal)} تومان\n📈 نرخ پس‌انداز: ${rate}٪\n\n${rate>=20?'✅ عالی! پس‌انداز خوبی دارید.':rate>=0?'⚠️ وضعیت قابل بهبود است.':'❌ هزینه از درآمد بیشتر است!'}`;
+  if(q.includes('پس‌انداز'))return`💡 راهنمای پس‌انداز:\n\n۱. قانون ۵۰/۳۰/۲۰ را رعایت کنید\n۲. هدف پس‌انداز: ${f(Math.round(inc*0.2))} تومان/ماه\n۳. از صندوق پس‌انداز والت استفاده کنید`;
+  if(q.includes('هزینه')||q.includes('کاهش'))return`✂️ راهکارهای کاهش هزینه:\n\n• بودجه‌بندی دسته‌بندی‌ها را تنظیم کنید\n• قبل از خرید ۲۴ ساعت صبر کنید\n• هزینه این ماه: ${f(exp)} تومان`;
+  if(q.includes('بودجه'))return`🎯 پیشنهاد بودجه ماهانه:\n\n• خوراک: ${f(Math.round(inc*0.15))} تومان\n• حمل‌ونقل: ${f(Math.round(inc*0.10))} تومان\n• خرید: ${f(Math.round(inc*0.10))} تومان\n• پس‌انداز: ${f(Math.round(inc*0.20))} تومان`;
+  return`🤖 بر اساس داده‌های شما:\n\nکل دارایی: ${f(total+S.sav)} تومان\nتراز ماه: ${f(bal)} تومان\n\nبرای تحلیل دقیق‌تر، سوال مشخص‌تری بپرسید.`;
+}
+function clearAI(){document.getElementById('aiChat').innerHTML='<div class="ai-msg bot">سلام! 👋 چطور می‌توانم کمک کنم؟</div>';aiHistory=[];}
+
+/* ══════════════════════════════════
+   REALISTIC BANK CARD
+══════════════════════════════════ */
+function mkCard(a){
+  const num=mskC(a.cardNumber);
+  const groups=num.split(' ');
+  return`<div class="bk-card ${a.color}">
+    <div class="bk-tex"></div>
+    <div class="bk-sh"></div>
+    <div class="bk-glow"></div>
+    <div class="bk-holo"></div>
+    <div class="bk-con">
+      <div class="bk-top">
+        <div class="bk-logo">${escH(a.name)}</div>
+        <div class="bk-chip"><div class="bk-chip-v"></div></div>
+      </div>
+      <div class="bk-num-row">
+        ${groups.map(g=>`<span class="bk-num-g">${g}</span>`).join('')}
+      </div>
+      <div class="bk-bot">
+        <div class="bk-holder-wrap">
+          <div class="bk-label">CARD HOLDER</div>
+          <div class="bk-holder">${escH(a.holder||a.name)}</div>
+        </div>
+        <div class="bk-bal-wrap">
+          <div class="bk-bal-lbl">BALANCE</div>
+          <div class="bk-bal">${f(a.balance)} <span style="font-size:9px;opacity:.5;font-family:Vazirmatn">ت</span></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function updCP(){const pr=document.getElementById('cardPrev');if(!pr)return;pr.innerHTML=mkCard({name:document.getElementById('aN')?.value||'نام بانک',holder:document.getElementById('aH')?.value||'صاحب کارت',balance:raw(document.getElementById('aB')?.value||'0'),cardNumber:document.getElementById('aCard')?.value||'',color:selClr});}
+function mskC(num){if(!num)return'•••• •••• •••• ••••';const d=num.replace(/-/g,'').padEnd(16,'•');return`${d.slice(0,4)} ${d.slice(4,8)} ${d.slice(8,12)} ${d.slice(12,16)}`;}
+function fmtCard(el){let v=el.value.replace(/\D/g,'').substring(0,16);el.value=v.replace(/(.{4})/g,'$1-').replace(/-$/,'');}
+function fmtIban(el){let v=el.value.replace(/\s/g,'').toUpperCase();if(!v.startsWith('IR'))v='IR'+v.replace(/^IR/,'');el.value=v.substring(0,26);}
+function fmtD2(cn){if(!cn)return'';return cn.replace(/-/g,'').replace(/(.{4})/g,'$1-').replace(/-$/,'');}
+
+/* ══════════════════════════════════
+   COPY
+══════════════════════════════════ */
+function cpv(val,rowEl){const done=()=>{rowEl.classList.add('cp2');const b=rowEl.querySelector('.crow-b');if(b){b.textContent='✅';setTimeout(()=>{rowEl.classList.remove('cp2');b.textContent='📋';},2000);}toast('کپی شد ✓');};if(navigator.clipboard)navigator.clipboard.writeText(val).then(done).catch(()=>{lcpy(val);done();});else{lcpy(val);done();}}
+function lcpy(v){const t=document.createElement('textarea');t.value=v;t.style.cssText='position:fixed;opacity:0;top:0;left:0';document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(t);}
+
+/* ══════════════════════════════════
+   HELPERS
+══════════════════════════════════ */
+function txHTML(t){const col=tc(t.type),sign=t.type==='income'?'+':t.type==='expense'?'-':'';const an=t.accountId?(S.accounts.find(a=>a.id===t.accountId)?.name||''):'';return`<div class="txr"><div class="txic" style="background:${col}22">${ti(t.type,t.category)}</div><div class="txm"><div class="txn">${escH(t.title||t.category||'-')}</div><div class="txs">${escH(an)}${an?' · ':''}${jSh(t.date)}</div></div><div class="txa" style="color:${col}">${sign}${f(t.amount)}</div><button class="txd" onclick="delTx(${t.id})">✕</button></div>`;}
+function tc(type){return type==='income'?'#10b981':type==='expense'?'#f43f5e':type==='transfer'?'#3b82f6':'#8b5cf6';}
+function ti(type,cat){if(type==='income')return'💰';if(type==='transfer')return'🔄';if(type==='savings_deposit')return'🏦';if(type==='savings_withdraw')return'💵';const m={'خوراک':'🍔','حمل‌ونقل':'🚗','خرید':'🛍️','سلامت':'💊','آموزش':'📚','سرگرمی':'🎮','قبوض':'📃','حقوق':'💼','سود':'📈'};return m[cat]||'📦';}
+function catIco(cat){const m={'خوراک':'🍔','حمل‌ونقل':'🚗','خرید':'🛍️','سلامت':'💊','آموزش':'📚','سرگرمی':'🎮','قبوض':'📃','سایر':'📦'};return m[cat]||'📦';}
+function f(n){return new Intl.NumberFormat('fa-IR').format(n||0);}
+function cf(n){if(n>=1e9)return(n/1e9).toFixed(1)+'م';if(n>=1e6)return(n/1e6).toFixed(1)+'م';if(n>=1e3)return(n/1e3).toFixed(0)+'ه';return n;}
+function jSh(iso){try{const[jy,jm,jd]=JD.fromISO(iso);if(!jy)return'—';const mn=['فر','ار','خر','تی','مر','شه','مه','آب','آذ','دی','به','اس'];return`${jd} ${mn[jm-1]}`;}catch(e){return'—';}}
+function raw(str){if(!str)return 0;let s=str.toString().replace(/,/g,'').replace(/٬/g,'');let o='';for(const c of s){const cd=c.charCodeAt(0);o+=(cd>=1776&&cd<=1785)?String.fromCharCode(cd-1728):c;}return parseInt(o,10)||0;}
+function escH(s){if(s==null)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+let tT;
+function toast(msg,type='s'){const el=document.getElementById('toast');document.getElementById('tIco').textContent=type==='s'?'✅':'❌';document.getElementById('tTxt').textContent=msg;el.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>el.classList.remove('show'),3400);}
+function setupNums(){document.addEventListener('input',function(e){if(e.target.classList.contains('fi')&&e.target.getAttribute('inputmode')==='numeric'){const v=raw(e.target.value);if(v>0)e.target.value=v.toLocaleString('en-US');}});}
+
+init();
+</script>
+</body>
+</html>
